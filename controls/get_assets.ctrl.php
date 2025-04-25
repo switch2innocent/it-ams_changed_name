@@ -54,17 +54,17 @@ while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
             </div>
             <div class="form-group col-md-6">
                 <label>Description: <span style="color: red;">*</span></label>
-                <textarea class="form-control" placeholder="Description..." id="upd_item_desc" ' . ($row['stat_id'] == 4 ? 'readonly' : '') . '>' . $row['item_desc'] . '</textarea>
+                <textarea class="form-control restrict" placeholder="Description..." id="upd_item_desc" ' . ($row['stat_id'] == 4 ? 'readonly' : '') . '>' . $row['item_desc'] . '</textarea>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>Accountable: <span style="color: red;">*</span></label>
-                <input class="form-control" type="text" placeholder="Accountable..." id="upd_acct_name" value="' . $row['acct_name'] . '" ' . ($row['stat_id'] == 4 ? 'readonly' : '') . '>
+                <input class="form-control restrict" type="text" placeholder="Accountable..." id="upd_acct_name" value="' . $row['acct_name'] . '" ' . ($row['stat_id'] == 4 ? 'readonly' : '') . '>
             </div>
             <div class="form-group col-md-6">
                 <label>User: <span style="color: red;">*</span></label>
-                <input class="form-control" type="text" placeholder="User..." id="upd_user" value="' . $row['user'] . '" ' . ($row['stat_id'] == 4 ? 'readonly' : '') . '>
+                <input class="form-control restrict" type="text" placeholder="User..." id="upd_user" value="' . $row['user'] . '" ' . ($row['stat_id'] == 4 ? 'readonly' : '') . '>
             </div>
         </div>
         <div class="form-row">
@@ -90,7 +90,7 @@ while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>Building Lvl: <span style="color: red;">*</span></label>
-                <input class="form-control" type="text" placeholder="Building Level..." id="upd_bldg_lvl" value="' . $row['bldg_lvl'] . '" ' . ($row['stat_id'] == 4 ? 'readonly' : '') . '>
+                <input class="form-control restrict" type="text" placeholder="Building Level..." id="upd_bldg_lvl" value="' . $row['bldg_lvl'] . '" ' . ($row['stat_id'] == 4 ? 'readonly' : '') . '>
             </div>
             <div class="form-group col-md-6">
                 <label>Status: <span style="color: red;">*</span></label>
@@ -105,7 +105,7 @@ while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label>Remarks: <span style="color: red;">*</span></label>
-                <textarea class="form-control" placeholder="Remarks..." id="upd_remarks" ' . ($row['stat_id'] == 4 ? 'readonly' : '') . '>' . $row['remarks'] . '</textarea>
+                <textarea class="form-control restrict" placeholder="Remarks..." id="upd_remarks" ' . ($row['stat_id'] == 4 ? 'readonly' : '') . '>' . $row['remarks'] . '</textarea>
             </div>
         </div>
     </form>
@@ -150,5 +150,4 @@ while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
 
 ?>
 
-<script src="../assets/js/assets.script.js"></script>
-<script src="../assets/js/search_barcode.script.js"></script>
+<script src="../assets/js/update_assets.script.js"></script>

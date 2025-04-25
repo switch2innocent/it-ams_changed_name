@@ -274,9 +274,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 <div class="card-box mb-30">
                     <div class="pd-20">
                         <h4 class="text-blue h4">Scrap Table</h4>
-                    </div>
-                    <div class="pb-20 table-responsive">
-                        <table id="desktop_pc" class="ui celled table" style="width:100%">
+                        <table id="desktop_pc" class="ui celled table pb-20 table-responsive" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Barcode</th>

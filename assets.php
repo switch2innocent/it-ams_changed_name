@@ -278,9 +278,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 					<div class="pd-20">
 						<h4 class="text-blue h4"><?php echo $_GET['find']; ?> Table</h4>
 						<p class="mb-0">To add new asset <a class="text-primary" href="#" data-toggle="modal" data-target="#addnew_modal">Click Here</a></p>
-					</div>
-					<div class="pb-20 table-responsive">
-						<table id="desktop_pc" class="ui celled table" style="width:100%">
+						<table id="desktop_pc" class="ui celled table pb-20 table-responsive" style="width:100%">
 							<thead>
 								<tr>
 									<th>Barcode</th>
@@ -324,6 +322,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 							</tbody>
 						</table>
 					</div>
+
 				</div>
 				<!-- Simple Datatable End -->
 			</div>
@@ -384,19 +383,19 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 						<div class="form-group row">
 							<label class="col-sm-12 col-md-2 col-form-label">Description: <span style="color: red;">*</span></label>
 							<div class="col-sm-12 col-md-10">
-								<textarea class="form-control" placeholder="Description..." id="item_description"></textarea>
+								<textarea class="form-control restrict" placeholder="Description..." id="item_description"></textarea>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-sm-12 col-md-2 col-form-label">Accountable: <span style="color: red;">*</span></label>
 							<div class="col-sm-12 col-md-10">
-								<input class="form-control" type="text" placeholder="Accountable..." id="accountable_name">
+								<input class="form-control restrict" type="text" placeholder="Accountable..." id="accountable_name">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-sm-12 col-md-2 col-form-label">User: <span style="color: red;">*</span></label>
 							<div class="col-sm-12 col-md-10">
-								<input class="form-control" type="text" placeholder="User..." id="user">
+								<input class="form-control restrict" type="text" placeholder="User..." id="user">
 							</div>
 						</div>
 						<div class="form-group row">
@@ -444,7 +443,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 						<div class="form-group row">
 							<label class="col-sm-12 col-md-2 col-form-label">Building Lvl: <span style="color: red;">*</span></label>
 							<div class="col-sm-12 col-md-10">
-								<input class="form-control" type="text" placeholder="Building Level..." id="bldg_level">
+								<input class="form-control restrict" type="text" placeholder="Building Level..." id="bldg_level">
 							</div>
 						</div>
 						<div class="form-group row">
@@ -474,7 +473,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 						<div class="form-group row">
 							<label class="col-sm-12 col-md-2 col-form-label">Remarks: <span style="color: red;">*</span></label>
 							<div class="col-sm-12 col-md-10">
-								<textarea class="form-control" placeholder="Remarks..." id="remarks"></textarea>
+								<textarea class="form-control restrict" placeholder="Remarks..." id="remarks"></textarea>
 							</div>
 						</div>
 					</form>

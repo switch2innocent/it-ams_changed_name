@@ -276,9 +276,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                     <div class="pd-20">
                         <h4 class="text-blue h4">Search Barcode Table</h4>
                         <p class="mb-0">Showing Results For Barcode: <u><?php echo isset($_GET['search_val']) ? htmlspecialchars($_GET['search_val']) : 'N/A'; ?></u></p>
-                    </div>
-                    <div class="pb-20 table-responsive">
-                        <table id="desktop_pc" class="ui celled table" style="width:100%">
+                        <table id="desktop_pc" class="ui celled table pb-20 table-responsive" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Barcode</th>
