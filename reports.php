@@ -52,7 +52,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 </head>
 
 <body>
-	<div class="pre-loader">
+	<!-- <div class="pre-loader">
 		<div class="pre-loader-box">
 			<div class="loader-logo"><img src="vendors/images/itdesk.png" alt="" style="width: 250px; height: auto;"></div>
 			<div class='loader-progress' id="progress_div">
@@ -63,7 +63,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 				Loading...
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	<div class="header">
 		<div class="header-left">
@@ -374,7 +374,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
 										$select_stat = new Status($db);
 
-										$select = $select_stat->select_status();
+										$select = $select_stat->view_status();
 										while ($row6 = $select->fetch(PDO::FETCH_ASSOC)) {
 											echo '<option value="' . $row6['id'] . '">' . $row6['stat_name'] . '</option>';
 										}

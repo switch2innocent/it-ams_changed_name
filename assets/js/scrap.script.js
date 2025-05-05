@@ -18,7 +18,7 @@ $(document).ready(() => {
 
         $.ajax({
             type: 'POST',
-            url: 'controls/get_assets.ctrl.php',
+            url: 'controls/view_assets.ctrl.php',
             data: { id: id },
             success: function (r) {
                 myModal.show();

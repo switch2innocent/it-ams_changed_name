@@ -22,4 +22,13 @@ class Status
         $select_st->execute();
         return $select_st;
     }
+
+    public function view_status() {
+        
+        $sql = "SELECT id, stat_name FROM status_tbl WHERE status != 0";
+        $select_department = $this->conn->prepare($sql);
+        $select_department->execute();
+
+        return $select_department;
+    }
 }

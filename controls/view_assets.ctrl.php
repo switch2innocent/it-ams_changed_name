@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 require_once '../config/dbcon.php';
@@ -52,65 +53,59 @@ while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
                 <input class="form-control" type="number" placeholder="Barcode No." id="upd_bar_no" value="' . $row['bar_no'] . '" readonly>
             </div>
             <div class="form-group col-md-6">
-                <label>Description: <span style="color: red;">*</span></label>
-                <textarea class="form-control restrict" placeholder="Description..." id="upd_item_desc" ' . ($row['stat_id'] == 4 ? 'readonly' : '') . '>' . $row['item_desc'] . '</textarea>
+                <label>Description:</label>
+                <textarea class="form-control restrict" placeholder="Description..." id="upd_item_desc" readonly>' . $row['item_desc'] . '</textarea>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label>Accountable: <span style="color: red;">*</span></label>
-                <input class="form-control restrict" type="text" placeholder="Accountable..." id="upd_acct_name" value="' . $row['acct_name'] . '" ' . ($row['stat_id'] == 4 ? 'readonly' : '') . '>
+                <label>Accountable:</label>
+                <input class="form-control restrict" type="text" placeholder="Accountable..." id="upd_acct_name" value="' . $row['acct_name'] . '" readonly>
             </div>
             <div class="form-group col-md-6">
-                <label>User: <span style="color: red;">*</span></label>
-                <input class="form-control restrict" type="text" placeholder="User..." id="upd_user" value="' . $row['user'] . '" ' . ($row['stat_id'] == 4 ? 'readonly' : '') . '>
+                <label>User:</label>
+                <input class="form-control restrict" type="text" placeholder="User..." id="upd_user" value="' . $row['user'] . '" readonly>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label>Department: <span style="color: red;">*</span></label>
-                <select class="custom-select" id="upd_dept" ' . ($row['stat_id'] == 4 ? 'disabled' : '') . '>
-                    <option value="' . (int)$row['dept_id'] . '">' . $row['dept_name'] . '</option>';
+                <label>Department:</label>
+                <select class="custom-select" id="upd_dept" disabled style="color: black; background-color: #f0f0f0; opacity: 1;">
+                    <option value="' . $row['dept_id'] . '">' . $row['dept_name'] . '</option>';
     while ($row3 = $select->fetch(PDO::FETCH_ASSOC)) {
-        if ((int)$row3['id'] !== (int)$row['dept_id']) {
-            echo '<option value="' . (int)$row3['id'] . '">' . $row3['dept_name'] . '</option>';
-        }
+        echo '<option value="' . $row3['id'] . '">' . $row3['dept_name'] . '</option>';
     }
     echo '</select>
             </div>
             <div class="form-group col-md-6">
-                <label>Location: <span style="color: red;">*</span></label>
-                <select class="custom-select" id="upd_location" ' . ($row['stat_id'] == 4 ? 'disabled' : '') . '>
-                    <option value="' . (int)$row['location_id'] . '">' . $row['location'] . '</option>';
+                <label>Location:</label>
+                <select class="custom-select" id="upd_location" disabled style="color: black; background-color: #f0f0f0; opacity: 1;">
+                    <option value="' . $row['location_id'] . '">' . $row['location'] . '</option>';
     while ($row4 = $select_loc->fetch(PDO::FETCH_ASSOC)) {
-        if ((int)$row4['id'] !== (int)$row['location_id']) {
-            echo '<option value="' . (int)$row4['id'] . '">' . $row4['location'] . '</option>';
-        }
+        echo '<option value="' . $row4['id'] . '">' . $row4['location'] . '</option>';
     }
     echo '</select>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label>Building Lvl: <span style="color: red;">*</span></label>
-                <input class="form-control restrict" type="text" placeholder="Building Level..." id="upd_bldg_lvl" value="' . $row['bldg_lvl'] . '" ' . ($row['stat_id'] == 4 ? 'readonly' : '') . '>
+                <label>Building Lvl:</label>
+                <input class="form-control restrict" type="text" placeholder="Building Level..." id="upd_bldg_lvl" value="' . $row['bldg_lvl'] . '" readonly>
             </div>
             <div class="form-group col-md-6">
-                <label>Status: <span style="color: red;">*</span></label>
-                 <select class="custom-select" id="upd_stat" ' . ($row['stat_id'] == 4 ? 'disabled' : '') . '>
-                    <option value="' . (int)$row['stat_id'] . '" selected>' . $row['stat_name'] . '</option>';
+                <label>Status:</label>
+                 <select class="custom-select" id="upd_stat" disabled style="color: black; background-color: #f0f0f0; opacity: 1;">
+                    <option value="' . $row['stat_id'] . '">' . $row['stat_name'] . '</option>';
     while ($row2 = $select_stat->fetch(PDO::FETCH_ASSOC)) {
-        if ((int)$row2['id'] !== (int)$row['stat_id']) {
-            echo '<option value="' . (int)$row2['id'] . '">' . $row2['stat_name'] . '</option>';
-        }
+        echo '<option value="' . $row2['id'] . '">' . $row2['stat_name'] . '</option>';
     }
     echo '</select>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-12">
-                <label>Remarks: <span style="color: red;">*</span></label>
-                <textarea class="form-control restrict" placeholder="Remarks..." id="upd_remarks" ' . ($row['stat_id'] == 4 ? 'readonly' : '') . '>' . $row['remarks'] . '</textarea>
+                <label>Remarks:</label>
+                <textarea class="form-control restrict" placeholder="Remarks..." id="upd_remarks" readonly>' . $row['remarks'] . '</textarea>
             </div>
         </div>
     </form>
@@ -148,18 +143,6 @@ while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" ' . ($row['stat_id'] == 4 ? 'hidden' : '') . ' onclick="updateAssets()">Update</button>
     </div>
     ';
 }
-
-?>
-
-<script>
-    $(document).ready(function() {
-        // Restrict input fields with the class .restrict
-        $('.restrict').on('input', function() {
-            $(this).val($(this).val().replace(/[^a-zA-Z0-9\s-]/g, ''));
-        });
-    });
-</script>

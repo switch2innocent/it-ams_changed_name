@@ -48,7 +48,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 </head>
 
 <body>
-	<div class="pre-loader">
+	<!-- <div class="pre-loader">
 		<div class="pre-loader-box">
 			<div class="loader-logo"><img src="vendors/images/itdesk.png" alt="" style="width: 250px; height: auto;"></div>
 			<div class='loader-progress' id="progress_div">
@@ -59,7 +59,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 				Loading...
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	<div class="header">
 		<div class="header-left">

@@ -58,7 +58,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 </head>
 
 <body>
-    <div class="pre-loader">
+    <!-- <div class="pre-loader">
         <div class="pre-loader-box">
             <div class="loader-logo"><img src="vendors/images/itdesk.png" alt="" style="width: 250px; height: auto;"></div>
             <div class='loader-progress' id="progress_div">
@@ -69,7 +69,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 Loading...
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="header">
         <div class="header-left">
@@ -303,9 +303,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 											<td>
 												<center>
 													<div class="dropdown">
-														<a class="btn btn-link font-24 p-0 line-height-1 no-arrow view" href="#" role="button" data-id="' . $row2['id'] . '">
+														<a class="btn btn-link font-24 p-0 line-height-1 no-arrow" href="#" role="button" data-toggle="dropdown">
 															<i class="dw dw-more"></i>
 														</a>
+														<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+															<a class="dropdown-item view" href="#" data-id="' . $row2['id'] . '"><i class="dw dw-eye"></i> View</a>
+														</div>
 													</div>
 												</center>
 											</td>
@@ -330,7 +333,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myLargeModalLabel"><i class="icon-copy dw dw-trash"></i> Scrap</h4>
+                    <h4 class="modal-title" id="myLargeModalLabel"><i class="icon-copy dw dw-eye"></i> View</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <div class="modal-body" id="view_modalBody">
