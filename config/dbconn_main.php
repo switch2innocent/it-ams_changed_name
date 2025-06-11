@@ -3,10 +3,10 @@
 class ConnectionMain
 {
 
-    private $host = "localhost";
+    private $host = "192.168.2.2";
     private $dbname = "maindb";
-    private $username = "root";
-    private $password = "";
+    private $username = "admin";
+    private $password = "admin";
 
     private $conn;
 
