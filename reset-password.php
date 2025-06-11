@@ -40,7 +40,7 @@
 		<div class="container-fluid d-flex justify-content-between align-items-center">
 			<div class="brand-logo">
 				<a href="index.php" style="display: flex; align-items: center;">
-					<img src="vendors/images/itdesklarge.png" alt="">
+					<img src="vendors/images/amslogo2.png" alt="">
 					<!-- <h4 class="text-weight-bolder h-title">IT - Asset Management System</h4> -->
 				</a>
 			</div>

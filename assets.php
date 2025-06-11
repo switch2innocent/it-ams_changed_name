@@ -202,8 +202,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 	<div class="left-side-bar">
 		<div class="brand-logo">
 			<a href="dashboard.php">
-				<img src="vendors/images/itdesklarge.png" alt="" class="dark-logo">
-				<img src="vendors/images/itdesklargewhite.png" alt="" class="light-logo">
+				<img src="vendors/images/amslogo2.png" alt="" class="dark-logo">
+				<img src="vendors/images/amswhite.png" alt="" class="light-logo">
 			</a>
 			<div class="close-sidebar" data-toggle="left-sidebar-close">
 				<i class="ion-close-round"></i>

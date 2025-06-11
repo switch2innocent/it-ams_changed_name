@@ -32,10 +32,10 @@ function generatePDF($getAll)
     //Create PDF
     $pdf = new TCPDF('L', 'mm', [215.9, 330.2], true, 'UTF-8', false);
     $pdf->SetCreator(PDF_CREATOR);
-    $pdf->SetAuthor('IT - Desk');
-    $pdf->SetTitle('IT - Desk Report');
+    $pdf->SetAuthor('IT - AMS');
+    $pdf->SetTitle('IT - AMS Report');
     $pdf->SetSubject('Report');
-    $pdf->SetKeywords('IT - Desk, Report, PDF');
+    $pdf->SetKeywords('IT - AMS, Report, PDF');
 
     //Configure margins and page setup
     $pdf->SetMargins(10, 10, 10);
@@ -44,7 +44,7 @@ function generatePDF($getAll)
 
     //Add title
     $pdf->SetFont('helvetica', 'B', 16);
-    $pdf->Cell(0, 10, 'IT - Desk Report', 0, 1, 'C');
+    $pdf->Cell(0, 10, 'IT - AMS Report', 0, 1, 'C');
 
     //Add header information
     $pdf->SetFont('helvetica', '', 10);
@@ -93,7 +93,7 @@ function generatePDF($getAll)
     $pdf->writeHTML($tableHTML, true, false, false, false, '');
 
     //Output PDF
-    $pdf->Output('it-Desk_report.pdf', 'I');
+    $pdf->Output('IT-AMS_report.pdf', 'I');
 }
 
 //Generate PDF function for description, department, location and status format
@@ -117,10 +117,10 @@ function generatePDF2($getAll)
     //Create PDF
     $pdf = new TCPDF('L', 'mm', [215.9, 330.2], true, 'UTF-8', false);
     $pdf->SetCreator(PDF_CREATOR);
-    $pdf->SetAuthor('IT - Desk');
-    $pdf->SetTitle('IT - Desk Report');
+    $pdf->SetAuthor('IT - AMS');
+    $pdf->SetTitle('IT - AMS Report');
     $pdf->SetSubject('Report');
-    $pdf->SetKeywords('IT - Desk, Report, PDF');
+    $pdf->SetKeywords('IT - AMS, Report, PDF');
 
     //Configure margins and page setup
     $pdf->SetMargins(10, 10, 10);
@@ -129,7 +129,7 @@ function generatePDF2($getAll)
 
     //Add title
     $pdf->SetFont('helvetica', 'B', 16);
-    $pdf->Cell(0, 10, 'IT - Desk Report', 0, 1, 'C');
+    $pdf->Cell(0, 10, 'IT - AMS Report', 0, 1, 'C');
 
     //Add header information
     $pdf->SetFont('helvetica', '', 10);
@@ -180,7 +180,7 @@ function generatePDF2($getAll)
     $pdf->writeHTML($tableHTML, true, false, false, false, '');
 
     //Output PDF
-    $pdf->Output('it-Desk_report.pdf', 'I');
+    $pdf->Output('IT-AMS_report.pdf', 'I');
 }
 
 //Check for GET parameters
