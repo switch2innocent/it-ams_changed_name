@@ -21,7 +21,7 @@ if ($row = $login->fetch(PDO::FETCH_ASSOC)) {
     $_SESSION['firstname'] = $row['firstname'];
     $_SESSION['lastname'] = $row['lastname'];
     $_SESSION['user_position'] = $row['position'];
-    $_SESSION['user_role'] = $row['role'];
+    // $_SESSION['user_role'] = $row['role'];
     $_SESSION['user_name'] = $row['username'];
 
     echo 1;

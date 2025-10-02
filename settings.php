@@ -50,19 +50,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             font-variation-settings: "wdth"100;
         }
     </style>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-119386393-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-
-        gtag('config', 'UA-119386393-1');
-    </script>
 </head>
 
 <body>
@@ -87,7 +74,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 <form>
                     <div class="form-group mb-0">
                         <i class="dw dw-search2 search-icon"></i>
-                        <input type="text" class="form-control search-input" id="search_val" placeholder="Search Barcode Here ...">
+                        <input type="text" class="form-control search-input" id="search_val" placeholder="Search Barcode / Accountable Person Here ...">
                         <div class="dropdown">
                             <a class="dropdown-toggle no-arrow" href="#" id="search_btn">
                                 <i class="icon-copy ion-android-done"></i>
@@ -98,13 +85,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             </div>
         </div>
         <div class="header-right">
-            <div class="dashboard-setting user-notification">
+            <!-- <div class="dashboard-setting user-notification">
                 <div class="dropdown">
                     <a class="dropdown-toggle no-arrow" href="javascript:;" data-toggle="right-sidebar">
                         <i class="dw dw-settings2"></i>
                     </a>
                 </div>
-            </div>
+            </div> -->
             <div class="user-info-dropdown">
                 <div class="dropdown">
                     <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
@@ -123,7 +110,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     </div>
 
 
-    <div class="right-sidebar">
+    <div class="left-side-bar" style="height: 100%;">
         <div class="sidebar-title">
             <h3 class="weight-600 font-16 text-blue">
                 Layout Settings
@@ -191,7 +178,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                     </div>
                 </div>
 
-                <div class="reset-options pt-30 text-center">
+                <div class="reset-options pt-30 text-center" hidden>
                     <button class="btn btn-danger" id="reset-settings">Reset Settings</button>
                 </div>
             </div>
@@ -213,7 +200,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 <ul id="accordion-menu">
                     <li class="dropdown">
                         <a href="dashboard.php" class="dropdown-toggle no-arrow">
-                            <span class="micon dw dw-home"></span><span class="mtext">Dashboard</span>
+                            <span class="micon dw dw-home"></span></span><span class="mtext">Dashboard</span>
                         </a>
                     </li>
                     <li class="dropdown">
@@ -221,25 +208,15 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                             <span class="micon dw dw-library"></span><span class="mtext">Assets</span>
                         </a>
                         <ul class="submenu">
-
-                            <?php
-                            require_once 'config/dbcon.php';
-                            require_once 'objects/forms.obj.php';
-                            require_once 'objects/assets.obj.php';
-
-                            $database = new Connection();
-                            $db = $database->connect();
-
-                            $form_categ = new Forms($db);
-
-                            $form = $form_categ->form_categories();
-                            while ($row = $form->fetch(PDO::FETCH_ASSOC)) {
-                                echo '
-										<li><a href="assets.php?find=' . $row['form_name'] . '">' . $row['form_name'] . '</a></li>
-									';
-                            }
-
-                            ?>
+                            <li><a href="desktop_pc.php">Desktop PC</a></li>
+                            <li><a href="avr_ups.php">AVR UPS</a></li>
+                            <li><a href="laptop.php">Laptop</a></li>
+                            <li><a href="printer.php">Printer</a></li>
+                            <li><a href="server.php">Server</a></li>
+                            <li><a href="computer_peripheral.php">Computer Peripheral</a></li>
+                            <li><a href="network_device.php">Network Device</a></li>
+                            <li><a href="scanner.php">Scanner</a></li>
+                            <li><a href="communication.php">Communication</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">

@@ -27,17 +27,7 @@
 	<link rel="stylesheet" href="assets/css/font.style.css">
 
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.15.10/sweetalert2.min.css" rel="stylesheet">
-
-	<script>
-		window.dataLayer = window.dataLayer || [];
-
-		function gtag() {
-			dataLayer.push(arguments);
-		}
-		gtag('js', new Date());
-
-		gtag('config', 'UA-119386393-1');
-	</script>
+	
 </head>
 
 <body class="login-page">

@@ -12,7 +12,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 <head>
 	<!-- Basic Page Info -->
 	<meta charset="utf-8">
-	<title>Reports Page</title>
+	<title>Reports</title>
 
 	<!-- Site favicon -->
 	<link rel="apple-touch-icon" sizes="180x180" href="vendors/images/apple-touch-icon.png">
@@ -36,19 +36,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 	<link rel="stylesheet" type="text/css" href="vendors/styles/style.css">
 
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.15.10/sweetalert2.min.css" rel="stylesheet">
-
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119386393-1"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-
-		function gtag() {
-			dataLayer.push(arguments);
-		}
-		gtag('js', new Date());
-
-		gtag('config', 'UA-119386393-1');
-	</script>
 </head>
 
 <body>
@@ -73,7 +60,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 				<form>
 					<div class="form-group mb-0">
 						<i class="dw dw-search2 search-icon"></i>
-						<input type="text" class="form-control search-input" id="search_val" placeholder="Search Barcode Here ...">
+						<input type="text" class="form-control search-input" id="search_val" placeholder="Search Barcode / Accountable Person Here ...">
 						<div class="dropdown">
 							<a class="dropdown-toggle no-arrow" href="#" id="search_btn">
 								<i class="icon-copy ion-android-done"></i>
@@ -84,13 +71,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 			</div>
 		</div>
 		<div class="header-right">
-			<div class="dashboard-setting user-notification">
+			<!-- <div class="dashboard-setting user-notification">
 				<div class="dropdown">
 					<a class="dropdown-toggle no-arrow" href="javascript:;" data-toggle="right-sidebar">
 						<i class="dw dw-settings2"></i>
 					</a>
 				</div>
-			</div>
+			</div> -->
 			<div class="user-info-dropdown">
 				<div class="dropdown">
 					<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
@@ -184,7 +171,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 		</div>
 	</div>
 
-	<div class="left-side-bar">
+	<div class="left-side-bar" style="height: 100%;">
 		<div class="brand-logo">
 			<a href="dashboard.php">
 				<img src="vendors/images/amslogo2.png" alt="" class="dark-logo">
@@ -207,25 +194,15 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 							<span class="micon dw dw-library"></span><span class="mtext">Assets</span>
 						</a>
 						<ul class="submenu">
-
-							<?php
-							require_once 'config/dbcon.php';
-							require_once 'objects/forms.obj.php';
-							require_once 'objects/assets.obj.php';
-
-							$database = new Connection();
-							$db = $database->connect();
-
-							$form_categ = new Forms($db);
-
-							$form = $form_categ->form_categories();
-							while ($row = $form->fetch(PDO::FETCH_ASSOC)) {
-								echo '
-										<li><a href="assets.php?find=' . $row['form_name'] . '">' . $row['form_name'] . '</a></li>
-									';
-							}
-
-							?>
+							<li><a href="desktop_pc.php">Desktop PC</a></li>
+							<li><a href="avr_ups.php">AVR UPS</a></li>
+							<li><a href="laptop.php">Laptop</a></li>
+							<li><a href="printer.php">Printer</a></li>
+							<li><a href="server.php">Server</a></li>
+							<li><a href="computer_peripheral.php">Computer Peripheral</a></li>
+							<li><a href="network_device.php">Network Device</a></li>
+							<li><a href="scanner.php">Scanner</a></li>
+							<li><a href="communication.php">Communication</a></li>
 						</ul>
 					</li>
 					<li class="dropdown">
@@ -273,121 +250,144 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 					<div class="clearfix">
 						<div class="pull-left">
 							<h4 class="text-blue h4">Generate Reports</h4>
-							<p class="mb-30">Please choose a category to generate reports. To enable selections <a class="text-primary" href="#" id="reset">Click here</a>.</p>
+							<p class="mb-30">Please choose a category to generate report.</p>
 						</div>
 					</div>
-					<form>
-						<div class=" row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Barcode</label>
-									<select class="form-control" id="barcode">
-										<option value="0" selected disabled>Choose...</option>
-										<?php
-										require_once 'config/dbcon.php';
-										require_once 'objects/assets.obj.php';
+					<ul class="nav nav-tabs" id="myTab" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link active" id="clearance-tab" data-toggle="tab" href="#clearance" role="tab" aria-controls="clearance" aria-selected="true">Clearance</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="false">General</a>
+						</li>
+					</ul>
 
-										$database = new Connection();
-										$db = $database->connect();
+					<div class="tab-content" id="myTabContent">
+						<div class="tab-pane fade show active" id="clearance" role="tabpanel" aria-labelledby="clearance-tab">
+							<div class="container-fluid mt-5">
+								<form>
+									<fieldset>
+										<legend>
+											<h6>Clearance Report: </h6>
+										</legend>
+										<div class="form-group d-flex align-items-center position-relative">
+											<select class="form-control w-50 me-auto" name="accountable" id="acct" required>
+												<option value="0" selected disabled>Choose accountable...</option>
+												<?php
+												require_once 'config/dbcon.php';
+												require_once 'objects/assets.obj.php';
 
-										$select_barcode = new Assets($db);
+												$database = new Connection();
+												$db = $database->connect();
 
-										$select = $select_barcode->select_barcodes();
-										while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-											echo '<option value="' . $row['bar_no'] . '">' . $row['bar_no'] . '</option>';
-										}
-										?>
-									</select>
-								</div>
-								<div class="form-group">
-									<label>Description</label>
-									<select class="form-control" id="description">
-										<option value="0" selected disabled>Choose...</option>
-										<?php
-										$select_description = new Assets($db);
+												$select_accountable = new Assets($db);
+												$select = $select_accountable->select_accountables_for_clearance();
+												while ($row3 = $select->fetch(PDO::FETCH_ASSOC)) {
+													echo '<option value="' . htmlspecialchars($row3['acct_name']) . '">' . htmlspecialchars($row3['acct_name']) . '</option>';
+												}
+												?>
+											</select>
+											<button class="btn btn-primary" id="generatePDF">Generate</button>
+										</div>
+									</fieldset>
+								</form>
 
-										$select = $select_description->select_descriptions();
-										while ($row2 = $select->fetch(PDO::FETCH_ASSOC)) {
-											echo '<option value="' . $row2['item_desc'] . '">' . $row2['item_desc'] . '</option>';
-										}
-										?>
-									</select>
-								</div>
-								<div class="form-group">
-									<label>Accountable</label>
-									<select class="form-control" id="acct">
-										<option value="0" selected disabled>Choose...</option>
-										<?php
-										$select_accountable = new Assets($db);
-
-										$select = $select_accountable->select_accountables();
-										while ($row3 = $select->fetch(PDO::FETCH_ASSOC)) {
-											echo '<option value="' . $row3['acct_name'] . '">' . $row3['acct_name'] . '</option>';
-										}
-										?>
-									</select>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Department</label>
-									<select class="form-control" id="department">
-										<option value="0" selected disabled>Choose...</option>
-										<?php
-										require_once 'config/dbconn_main.php';
-										require_once 'objects/department.obj.php';
-
-										$databaseMain = new ConnectionMain();
-										$dbMain = $databaseMain->connect();
-
-										$select_department = new Department($dbMain);
-
-										$select = $select_department->select_departments();
-										while ($row4 = $select->fetch(PDO::FETCH_ASSOC)) {
-											echo '<option value="' . $row4['id'] . '">' . $row4['dept_name'] . '</option>';
-										}
-										?>
-									</select>
-								</div>
-								<div class="form-group">
-									<label>Location</label>
-									<select class="form-control" id="location">
-										<option value="0" selected disabled>Choose...</option>
-										<?php
-										require_once 'objects/location.obj.php';
-
-										$select_location = new Location($dbMain);
-
-										$select = $select_location->select_locations();
-										while ($row5 = $select->fetch(PDO::FETCH_ASSOC)) {
-											echo '<option value="' . $row5['id'] . '">' . $row5['location'] . '</option>';
-										}
-										?>
-									</select>
-								</div>
-								<div class="form-group">
-									<label>Status</label>
-									<select class="form-control" id="status">
-										<option value="0" selected disabled>Choose...</option>
-										<?php
-										require_once 'objects/status.obj.php';
-
-										$select_stat = new Status($db);
-
-										$select = $select_stat->view_status();
-										while ($row6 = $select->fetch(PDO::FETCH_ASSOC)) {
-											echo '<option value="' . $row6['id'] . '">' . $row6['stat_name'] . '</option>';
-										}
-										?>
-									</select>
-								</div>
 							</div>
 						</div>
-						<div class="text-right">
-							<button class="btn btn-success" id="generateExcel">Generate as Excel</button>
-							<button class="btn btn-primary" id="generatePDF">Generate as PDF</button>
+						<div class="tab-pane fade" id="general" role="tabpanel" aria-labelledby="general-tab">
+
+							<div class="container-fluid mt-5">
+
+								<form>
+									<fieldset>
+										<legend>
+											<h6>General Report: </h6>
+										</legend>
+										<div class="form-group position-relative">
+											<select class="form-control w-50" id="acct2">
+												<option value="0" selected disabled>Choose accountable...</option>
+												<?php
+												require_once 'config/dbcon.php';
+												require_once 'objects/assets.obj.php';
+
+												$database = new Connection();
+												$db = $database->connect();
+
+												$select_accountable = new Assets($db);
+												$select = $select_accountable->select_accountables();
+												while ($row3 = $select->fetch(PDO::FETCH_ASSOC)) {
+													echo '<option value="' . $row3['acct_name'] . '">' . $row3['acct_name'] . '</option>';
+												}
+												?>
+											</select>
+
+										</div>
+
+										<div class="form-group position-relative">
+											<select class="form-control w-50" id="department">
+												<option value="0" selected disabled>Choose department...</option>
+												<?php
+												require_once 'config/dbconn_main.php';
+												require_once 'objects/department.obj.php';
+
+												$databaseMain = new ConnectionMain();
+												$dbMain = $databaseMain->connect();
+
+												$select_department = new Department($dbMain);
+
+												$select = $select_department->select_departments();
+												while ($row4 = $select->fetch(PDO::FETCH_ASSOC)) {
+													echo '<option value="' . $row4['id'] . '">' . $row4['dept_name'] . '</option>';
+												}
+												?>
+											</select>
+										</div>
+
+										<div class="form-group position-relative">
+											<select class="form-control w-50" id="location">
+												<option value="0" selected disabled>Choose location...</option>
+												<?php
+												require_once 'objects/location.obj.php';
+
+												$select_location = new Location($dbMain);
+
+												$select = $select_location->select_locations();
+												while ($row5 = $select->fetch(PDO::FETCH_ASSOC)) {
+													echo '<option value="' . $row5['id'] . '">' . $row5['location'] . '</option>';
+												}
+												?>
+											</select>
+										</div>
+
+										<div class="form-group d-flex align-items-center position-relative">
+											<select class="form-control w-50" id="status">
+												<option value="0" selected disabled>Choose status...</option>
+												<?php
+												require_once 'objects/status.obj.php';
+
+												$select_stat = new Status($db);
+
+												$select = $select_stat->view_status();
+												while ($row6 = $select->fetch(PDO::FETCH_ASSOC)) {
+													echo '<option value="' . $row6['id'] . '">' . $row6['stat_name'] . '</option>';
+												}
+												?>
+											</select>
+
+										</div>
+										<div class="text-left">
+											<button class="btn btn-success" id="generateExcel">Generate</button>
+											<button class="btn btn-info" id="enable">Enable Filter</button>
+											<!-- <a class="btn btn-info" id="enable">Enable Filter</a> -->
+										</div>
+									</fieldset>
+								</form>
+
+							</div>
+
+
 						</div>
-					</form>
+					</div>
 				</div>
 				<!-- Select-2 end -->
 			</div>

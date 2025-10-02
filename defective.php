@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+require_once 'config/dbcon.php';
+require_once 'objects/forms.obj.php';
+
+$database = new Connection();
+$db = $database->connect();
+
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header('location: index.php');
     exit;
@@ -12,7 +18,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 <head>
     <!-- Basic Page Info -->
     <meta charset="utf-8">
-    <title>Defective Page</title>
+    <title>Defective</title>
     <!-- Site favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="vendors/images/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="vendors/images/favicon-32x32.png">
@@ -43,19 +49,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             font-variation-settings: "wdth"100;
         }
     </style>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-119386393-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-
-        gtag('config', 'UA-119386393-1');
-    </script>
 </head>
 
 <body>
@@ -80,7 +73,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 <form>
                     <div class="form-group mb-0">
                         <i class="dw dw-search2 search-icon"></i>
-                        <input type="text" class="form-control search-input" id="search_val" placeholder="Search Barcode Here ...">
+                        <input type="text" class="form-control search-input" id="search_val" placeholder="Search Barcode / Accountable Person Here ...">
                         <div class="dropdown">
                             <a class="dropdown-toggle no-arrow" href="#" id="search_btn">
                                 <i class="icon-copy ion-android-done"></i>
@@ -91,13 +84,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             </div>
         </div>
         <div class="header-right">
-            <div class="dashboard-setting user-notification">
+            <!-- <div class="dashboard-setting user-notification">
                 <div class="dropdown">
                     <a class="dropdown-toggle no-arrow" href="javascript:;" data-toggle="right-sidebar">
                         <i class="dw dw-settings2"></i>
                     </a>
                 </div>
-            </div>
+            </div> -->
             <div class="user-info-dropdown">
                 <div class="dropdown">
                     <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
@@ -190,7 +183,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         </div>
     </div>
 
-    <div class="left-side-bar">
+    <div class="left-side-bar" style="height: 100%;">
         <div class="brand-logo">
             <a href="dashboard.php">
                 <img src="vendors/images/amslogo2.png" alt="" class="dark-logo">
@@ -213,23 +206,15 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                             <span class="micon dw dw-library"></span><span class="mtext">Assets</span>
                         </a>
                         <ul class="submenu">
-                            <?php
-                            require_once 'config/dbcon.php';
-                            require_once 'objects/forms.obj.php';
-
-                            $database = new Connection();
-                            $db = $database->connect();
-
-                            $form_categ = new Forms($db);
-
-                            $form = $form_categ->form_categories();
-                            while ($row = $form->fetch(PDO::FETCH_ASSOC)) {
-                                echo '
-										<li><a href="assets.php?find=' . $row['form_name'] . '">' . $row['form_name'] . '</a></li>
-									';
-                            }
-
-                            ?>
+                            <li><a href="desktop_pc.php">Desktop PC</a></li>
+                            <li><a href="avr_ups.php">AVR UPS</a></li>
+                            <li><a href="laptop.php">Laptop</a></li>
+                            <li><a href="printer.php">Printer</a></li>
+                            <li><a href="server.php">Server</a></li>
+                            <li><a href="computer_peripheral.php">Computer Peripheral</a></li>
+                            <li><a href="network_device.php">Network Device</a></li>
+                            <li><a href="scanner.php">Scanner</a></li>
+                            <li><a href="communication.php">Communication</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -273,13 +258,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 <!-- Simple Datatable start -->
                 <div class="card-box mb-30">
                     <div class="pd-20">
-                        <h4 class="text-blue h4">Defective Table</h4>
-                        <table id="desktop_pc" class="ui celled table pb-20 table-responsive" style="width:100%">
+                        <table id="defective" class="ui celled table pb-20 table-responsive" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Barcode</th>
-                                    <th>Description</th>
+                                    <th class="w-100">Description</th>
                                     <th>Accountable</th>
+                                    <th>User</th>
                                     <th>Department</th>
                                     <th>Location</th>
                                     <th>Status</th>
@@ -287,39 +272,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                require_once 'config/dbcon.php';
-                                require_once 'objects/assets.obj.php';
-
-                                $view_defective = new Assets($db);
-
-                                $view = $view_defective->view_defectives();
-                                while ($row2 = $view->fetch(PDO::FETCH_ASSOC)) {
-                                    echo '
-										<tr>
-											<td>' . $row2['bar_no'] . '</td>
-											<td>' . $row2['item_desc'] . '</td>
-											<td>' . $row2['acct_name'] . '</td>
-											<td>' . $row2['dept_name'] . '</td>
-											<td>' . $row2['location'] . '</td>
-											<td>' . $row2['stat_name'] . '</td>
-											<td>
-												<center>
-													<div class="dropdown">
-														<a class="btn btn-link font-24 p-0 line-height-1 no-arrow" href="#" role="button" data-toggle="dropdown">
-															<i class="dw dw-more"></i>
-														</a>
-														<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                                            <a class="dropdown-item view" href="#" data-id="' . $row2['id'] . '"><i class="dw dw-eye"></i> View</a>
-															<a class="dropdown-item edit" href="#" data-id="' . $row2['id'] . '"><i class="dw dw-edit2"></i> Edit</a>
-														</div>
-													</div>
-												</center>
-											</td>
-										</tr> 
-									';
-                                }
-                                ?>
+                                <!-- Content goes here -->
                             </tbody>
                         </table>
                     </div>

@@ -25,8 +25,7 @@ class Users
 
     public function check_access()
     {
-
-        $sql = "SELECT count(user_id) AS count, access, role FROM access WHERE user_id = ? AND system_id = ? AND status != 0";
+        $sql = "SELECT count(user_id) AS count FROM access WHERE user_id = ? AND system_id = ? AND status != 0";
         $check_access = $this->conn->prepare($sql);
 
         $check_access->bindParam(1, $this->user_id);
@@ -34,6 +33,18 @@ class Users
 
         $check_access->execute();
         return $check_access;
+    }
+
+    public function get_access()
+    {
+        $sql = "SELECT user_id AS access_user_id, role_id, role FROM access WHERE user_id = ? AND system_id = ? AND status != 0";
+        $get_access = $this->conn->prepare($sql);
+
+        $get_access->bindParam(1, $this->user_id);
+        $get_access->bindParam(2, $this->system_id);
+
+        $get_access->execute();
+        return $get_access;
     }
 
     public function logout_user()
@@ -45,6 +56,9 @@ class Users
             unset($_SESSION["firstname"]);
             unset($_SESSION["lastname"]);
             unset($_SESSION["position"]);
+            unset($_SESSION["user_name"]);
+            unset($_SESSION["access_user_id"]);
+            unset($_SESSION["access_role_id"]);
             unset($_SESSION["role"]);
             return true;
         } else {
@@ -115,5 +129,14 @@ class Users
         } else {
             return false;
         }
+    }
+
+    public function select_users()
+    {
+        $sql = "SELECT id, concat(firstname, ' ', lastname) AS fullname FROM users WHERE status != 0";
+        $select_user = $this->conn->prepare($sql);
+
+        $select_user->execute();
+        return $select_user;
     }
 }

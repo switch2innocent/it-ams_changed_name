@@ -10,10 +10,8 @@ class Assets
         $this->conn = $db;
     }
 
-    public function view_assets()
+    public function view_assets($sql)
     {
-
-        $sql = 'SELECT itamsdb.it_asset_tbl.id, itamsdb.it_asset_tbl.bar_no, itamsdb.it_asset_tbl.item_desc, itamsdb.it_asset_tbl.acct_name, maindb.departments.dept_name, maindb.locations.location, itamsdb.status_tbl.stat_name FROM itamsdb.it_asset_tbl, itamsdb.status_tbl, maindb.departments, maindb.locations WHERE itamsdb.it_asset_tbl.dept_id = maindb.departments.id AND itamsdb.it_asset_tbl.location_id = maindb.locations.id AND itamsdb.it_asset_tbl.stat_id = itamsdb.status_tbl.id AND itamsdb.it_asset_tbl.form_type=? AND itamsdb.it_asset_tbl.stat_id !=2 AND itamsdb.it_asset_tbl.stat_id !=4 AND itamsdb.it_asset_tbl.stat_id !=3 AND itamsdb.it_asset_tbl.status != 0 ORDER BY itamsdb.it_asset_tbl.id DESC';
         $view_asset = $this->conn->prepare($sql);
 
         $view_asset->bindParam(1, $this->form_type);
@@ -24,24 +22,48 @@ class Assets
 
     public function add_assets()
     {
+        if ($this->img_name !== null) {
 
-        $sql = "INSERT INTO it_asset_tbl SET form_type=?, bar_no=?, item_desc=?, acct_name=?, user=?, dept_id=?, location_id=?, bldg_lvl=?, stat_id=?, remarks=?, created_by_id=?, created_at=?, status=1";
-        $add_asset = $this->conn->prepare($sql);
+            //Add including image name
+            $sql = "INSERT INTO it_asset_tbl SET form_type=?, bar_no=?, item_desc=?, acct_name=?, user=?, dept_id=?, location_id=?, bldg_lvl=?, stat_id=?, remarks=?, img_name=?, created_by_id=?, created_at=?, status=1";
+            $add_asset = $this->conn->prepare($sql);
 
-        $current_datetime = date('Y-m-d H:i:s');
+            $current_datetime = date('Y-m-d H:i:s');
 
-        $add_asset->bindParam(1, $this->form_type);
-        $add_asset->bindParam(2, $this->bar_no);
-        $add_asset->bindParam(3, $this->item_desc);
-        $add_asset->bindParam(4, $this->acct_name);
-        $add_asset->bindParam(5, $this->user);
-        $add_asset->bindParam(6, $this->dept);
-        $add_asset->bindParam(7, $this->location);
-        $add_asset->bindParam(8, $this->bldg_lvl);
-        $add_asset->bindParam(9, $this->stat);
-        $add_asset->bindParam(10, $this->remarks);
-        $add_asset->bindParam(11, $this->created_by);
-        $add_asset->bindParam(12, $current_datetime);
+            $add_asset->bindParam(1, $this->form_type);
+            $add_asset->bindParam(2, $this->bar_no);
+            $add_asset->bindParam(3, $this->item_desc);
+            $add_asset->bindParam(4, $this->acct_name);
+            $add_asset->bindParam(5, $this->user);
+            $add_asset->bindParam(6, $this->dept);
+            $add_asset->bindParam(7, $this->location);
+            $add_asset->bindParam(8, $this->bldg_lvl);
+            $add_asset->bindParam(9, $this->stat);
+            $add_asset->bindParam(10, $this->remarks);
+            $add_asset->bindParam(11, $this->img_name);
+            $add_asset->bindParam(12, $this->created_by);
+            $add_asset->bindParam(13, $current_datetime);
+        } else {
+
+            //Add without image
+            $sql = "INSERT INTO it_asset_tbl SET form_type=?, bar_no=?, item_desc=?, acct_name=?, user=?, dept_id=?, location_id=?, bldg_lvl=?, stat_id=?, remarks=?, created_by_id=?, created_at=?, status=1";
+            $add_asset = $this->conn->prepare($sql);
+
+            $current_datetime = date('Y-m-d H:i:s');
+
+            $add_asset->bindParam(1, $this->form_type);
+            $add_asset->bindParam(2, $this->bar_no);
+            $add_asset->bindParam(3, $this->item_desc);
+            $add_asset->bindParam(4, $this->acct_name);
+            $add_asset->bindParam(5, $this->user);
+            $add_asset->bindParam(6, $this->dept);
+            $add_asset->bindParam(7, $this->location);
+            $add_asset->bindParam(8, $this->bldg_lvl);
+            $add_asset->bindParam(9, $this->stat);
+            $add_asset->bindParam(10, $this->remarks);
+            $add_asset->bindParam(11, $this->created_by);
+            $add_asset->bindParam(12, $current_datetime);
+        }
 
         if ($add_asset->execute()) {
             return true;
@@ -53,7 +75,7 @@ class Assets
     public function get_assets()
     {
 
-        $sql = "SELECT itamsdb.it_asset_tbl.stat_id, itamsdb.it_asset_tbl.location_id, itamsdb.it_asset_tbl.dept_id, itamsdb.it_asset_tbl.id, CONCAT(maindb.users.firstname, ' ', maindb.users.lastname) AS full_name, itamsdb.it_asset_tbl.created_at, itamsdb.it_asset_tbl.bar_no, itamsdb.it_asset_tbl.item_desc, itamsdb.it_asset_tbl.acct_name, itamsdb.it_asset_tbl.user, maindb.departments.dept_name, maindb.locations.location, itamsdb.it_asset_tbl.bldg_lvl, itamsdb.status_tbl.stat_name, itamsdb.it_asset_tbl.remarks FROM itamsdb.it_asset_tbl, itamsdb.status_tbl, maindb.users, maindb.departments, maindb.locations WHERE itamsdb.it_asset_tbl.created_by_id = maindb.users.id AND itamsdb.it_asset_tbl.dept_id = maindb.departments.id AND itamsdb.it_asset_tbl.location_id = maindb.locations.id AND itamsdb.it_asset_tbl.stat_id = itamsdb.status_tbl.id AND itamsdb.it_asset_tbl.id =?";
+        $sql = "SELECT itamsdb.it_asset_tbl.img_name, itamsdb.it_asset_tbl.stat_id, itamsdb.it_asset_tbl.location_id, itamsdb.it_asset_tbl.dept_id, itamsdb.it_asset_tbl.id, CONCAT(maindb.users.firstname, ' ', maindb.users.lastname) AS full_name, itamsdb.it_asset_tbl.created_at, itamsdb.it_asset_tbl.bar_no, itamsdb.it_asset_tbl.item_desc, itamsdb.it_asset_tbl.acct_name, itamsdb.it_asset_tbl.user, maindb.departments.dept_name, maindb.locations.location, itamsdb.it_asset_tbl.bldg_lvl, itamsdb.status_tbl.stat_name, itamsdb.it_asset_tbl.remarks, itamsdb.it_asset_tbl.reason FROM itamsdb.it_asset_tbl, itamsdb.status_tbl, maindb.users, maindb.departments, maindb.locations WHERE itamsdb.it_asset_tbl.created_by_id = maindb.users.id AND itamsdb.it_asset_tbl.dept_id = maindb.departments.id AND itamsdb.it_asset_tbl.location_id = maindb.locations.id AND itamsdb.it_asset_tbl.stat_id = itamsdb.status_tbl.id AND itamsdb.it_asset_tbl.id =?";
         $get_asset = $this->conn->prepare($sql);
 
         $get_asset->bindParam(1, $this->id);
@@ -62,18 +84,16 @@ class Assets
         return $get_asset;
     }
 
-    public function view_defectives()
+    public function view_defectives($sql)
     {
-        $sql = 'SELECT itamsdb.it_asset_tbl.id, itamsdb.it_asset_tbl.bar_no, itamsdb.it_asset_tbl.item_desc, itamsdb.it_asset_tbl.acct_name, maindb.departments.dept_name, maindb.locations.location, itamsdb.status_tbl.stat_name FROM itamsdb.it_asset_tbl, itamsdb.status_tbl, maindb.departments, maindb.locations WHERE itamsdb.it_asset_tbl.dept_id = maindb.departments.id AND itamsdb.it_asset_tbl.location_id = maindb.locations.id AND itamsdb.it_asset_tbl.stat_id = itamsdb.status_tbl.id AND itamsdb.it_asset_tbl.status != 0 AND (itamsdb.it_asset_tbl.stat_id = 2 OR itamsdb.it_asset_tbl.stat_id = 3) ORDER BY itamsdb.it_asset_tbl.id DESC';
         $view_defective = $this->conn->prepare($sql);
 
         $view_defective->execute();
         return $view_defective;
     }
 
-    public function view_scraps()
+    public function view_scraps($sql)
     {
-        $sql = 'SELECT itamsdb.it_asset_tbl.id, itamsdb.it_asset_tbl.bar_no, itamsdb.it_asset_tbl.item_desc, itamsdb.it_asset_tbl.acct_name, maindb.departments.dept_name, maindb.locations.location, itamsdb.status_tbl.stat_name FROM itamsdb.it_asset_tbl, itamsdb.status_tbl, maindb.departments, maindb.locations WHERE itamsdb.it_asset_tbl.dept_id = maindb.departments.id AND itamsdb.it_asset_tbl.location_id = maindb.locations.id AND itamsdb.it_asset_tbl.stat_id = itamsdb.status_tbl.id AND itamsdb.it_asset_tbl.stat_id =4 AND itamsdb.it_asset_tbl.status != 0 ORDER BY itamsdb.it_asset_tbl.id DESC';
         $view_scrap = $this->conn->prepare($sql);
 
         $view_scrap->execute();
@@ -144,22 +164,46 @@ class Assets
 
     public function update_assets()
     {
+        if ($this->upd_img_name !== null) {
 
-        $sql = "UPDATE it_asset_tbl SET item_desc=?, acct_name=?, user=?, dept_id=?, location_id=?, bldg_lvl=?, stat_id=?, remarks=?, created_at=? WHERE id=?";
-        $update_asset = $this->conn->prepare($sql);
+            //Update including image
+            $sql = "UPDATE it_asset_tbl SET item_desc=?, acct_name=?, user=?, dept_id=?, location_id=?, bldg_lvl=?, stat_id=?, remarks=?, reason = ?, img_name=?, created_at=? WHERE id=?";
+            $update_asset = $this->conn->prepare($sql);
 
-        $current_datetime = date('Y-m-d H:i:s');
+            $current_datetime = date('Y-m-d H:i:s');
 
-        $update_asset->bindParam(1, $this->item_desc);
-        $update_asset->bindParam(2, $this->acct_name);
-        $update_asset->bindParam(3, $this->user);
-        $update_asset->bindParam(4, $this->dept);
-        $update_asset->bindParam(5, $this->location);
-        $update_asset->bindParam(6, $this->bldg_lvl);
-        $update_asset->bindParam(7, $this->stat);
-        $update_asset->bindParam(8, $this->remarks);
-        $update_asset->bindParam(9, $current_datetime);
-        $update_asset->bindParam(10, $this->id);
+            $update_asset->bindParam(1, $this->item_desc);
+            $update_asset->bindParam(2, $this->acct_name);
+            $update_asset->bindParam(3, $this->user);
+            $update_asset->bindParam(4, $this->dept);
+            $update_asset->bindParam(5, $this->location);
+            $update_asset->bindParam(6, $this->bldg_lvl);
+            $update_asset->bindParam(7, $this->stat);
+            $update_asset->bindParam(8, $this->remarks);
+            $update_asset->bindParam(9, $this->upd_reason);
+            $update_asset->bindParam(10, $this->upd_img_name);
+            $update_asset->bindParam(11, $current_datetime);
+            $update_asset->bindParam(12, $this->id);
+        } else {
+
+            //Update without image
+            $sql = "UPDATE it_asset_tbl SET item_desc=?, acct_name=?, user=?, dept_id=?, location_id=?, bldg_lvl=?, stat_id=?, remarks=?, reason = ?, created_at=? WHERE id=?";
+            $update_asset = $this->conn->prepare($sql);
+
+            $current_datetime = date('Y-m-d H:i:s');
+
+            $update_asset->bindParam(1, $this->item_desc);
+            $update_asset->bindParam(2, $this->acct_name);
+            $update_asset->bindParam(3, $this->user);
+            $update_asset->bindParam(4, $this->dept);
+            $update_asset->bindParam(5, $this->location);
+            $update_asset->bindParam(6, $this->bldg_lvl);
+            $update_asset->bindParam(7, $this->stat);
+            $update_asset->bindParam(8, $this->remarks);
+            $update_asset->bindParam(9, $this->upd_reason);
+            $update_asset->bindParam(10, $current_datetime);
+            $update_asset->bindParam(11, $this->id);
+        }
 
         if ($update_asset->execute()) {
             return true;
@@ -184,6 +228,15 @@ class Assets
 
         $select_description->execute();
         return $select_description;
+    }
+
+    public function select_accountables_for_clearance()
+    {
+        $sql = "SELECT id, acct_name FROM it_asset_tbl WHERE stat_id = 1 AND status != 0 GROUP BY acct_name";
+        $select_accountable = $this->conn->prepare($sql);
+
+        $select_accountable->execute();
+        return $select_accountable;
     }
 
     public function select_accountables()
@@ -217,6 +270,18 @@ class Assets
 
         $getAll_usingDescription->execute();
         return $getAll_usingDescription;
+    }
+
+    public function getAll_usingAccts_for_clearance()
+    {
+
+        $sql = "SELECT itamsdb.it_asset_tbl.stat_id, itamsdb.it_asset_tbl.location_id, itamsdb.it_asset_tbl.dept_id, itamsdb.it_asset_tbl.id, CONCAT(maindb.users.firstname, ' ', maindb.users.lastname) AS full_name, itamsdb.it_asset_tbl.created_at, itamsdb.it_asset_tbl.bar_no, itamsdb.it_asset_tbl.item_desc, itamsdb.it_asset_tbl.acct_name, itamsdb.it_asset_tbl.user, maindb.departments.dept_name, maindb.locations.location, itamsdb.it_asset_tbl.bldg_lvl, itamsdb.status_tbl.stat_name, itamsdb.it_asset_tbl.remarks FROM itamsdb.it_asset_tbl, itamsdb.status_tbl, maindb.users, maindb.departments, maindb.locations WHERE itamsdb.it_asset_tbl.created_by_id = maindb.users.id AND itamsdb.it_asset_tbl.dept_id = maindb.departments.id AND itamsdb.it_asset_tbl.location_id = maindb.locations.id AND itamsdb.it_asset_tbl.stat_id = itamsdb.status_tbl.id AND itamsdb.it_asset_tbl.acct_name=? AND itamsdb.it_asset_tbl.stat_id = 1 AND itamsdb.it_asset_tbl.status != 0";
+        $getAll_usingacct = $this->conn->prepare($sql);
+
+        $getAll_usingacct->bindParam(1, $this->acct);
+
+        $getAll_usingacct->execute();
+        return $getAll_usingacct;
     }
 
     public function getAll_usingAccts()
@@ -269,11 +334,12 @@ class Assets
 
     public function search_barcodes()
     {
-        $sql = "SELECT itamsdb.it_asset_tbl.stat_id, itamsdb.it_asset_tbl.id, itamsdb.it_asset_tbl.bar_no, itamsdb.it_asset_tbl.item_desc, itamsdb.it_asset_tbl.acct_name, maindb.departments.dept_name, maindb.locations.location, itamsdb.status_tbl.stat_name FROM itamsdb.it_asset_tbl, itamsdb.status_tbl, maindb.departments, maindb.locations WHERE itamsdb.it_asset_tbl.dept_id = maindb.departments.id AND itamsdb.it_asset_tbl.location_id = maindb.locations.id AND itamsdb.it_asset_tbl.stat_id = itamsdb.status_tbl.id AND itamsdb.it_asset_tbl.bar_no LIKE ? AND itamsdb.it_asset_tbl.status != 0 ORDER BY itamsdb.it_asset_tbl.id DESC";
+        $sql = "SELECT itamsdb.it_asset_tbl.stat_id, itamsdb.it_asset_tbl.id, itamsdb.it_asset_tbl.bar_no, itamsdb.it_asset_tbl.item_desc, itamsdb.it_asset_tbl.acct_name, itamsdb.it_asset_tbl.user, maindb.departments.dept_name, maindb.locations.location, itamsdb.status_tbl.stat_name FROM itamsdb.it_asset_tbl, itamsdb.status_tbl, maindb.departments, maindb.locations WHERE itamsdb.it_asset_tbl.dept_id = maindb.departments.id AND itamsdb.it_asset_tbl.location_id = maindb.locations.id AND itamsdb.it_asset_tbl.stat_id = itamsdb.status_tbl.id AND (itamsdb.it_asset_tbl.bar_no LIKE ? OR itamsdb.it_asset_tbl.acct_name LIKE ?) AND itamsdb.it_asset_tbl.status != 0 ORDER BY itamsdb.it_asset_tbl.id DESC";
         $search_barcode = $this->conn->prepare($sql);
 
         $search = "%" . $this->bar_no . "%";
         $search_barcode->bindParam(1, $search);
+        $search_barcode->bindParam(2, $search);
 
         $search_barcode->execute();
         return $search_barcode;
@@ -281,7 +347,7 @@ class Assets
 
     public function verify_updateAssets()
     {
-        $sql = "SELECT COUNT(*) FROM it_asset_tbl WHERE item_desc = ? AND acct_name = ? AND user = ? AND dept_id = ? AND location_id = ? AND bldg_lvl = ? AND stat_id = ? AND remarks = ? AND id=? AND status != 0";
+        $sql = "SELECT COUNT(*) FROM it_asset_tbl WHERE item_desc = ? AND acct_name = ? AND user = ? AND dept_id = ? AND location_id = ? AND bldg_lvl = ? AND stat_id = ? AND remarks = ? AND img_name = ? AND id=? AND status != 0";
         $verify_updateAsset = $this->conn->prepare($sql);
 
         $verify_updateAsset->bindParam(1, $this->item_desc);
@@ -292,7 +358,8 @@ class Assets
         $verify_updateAsset->bindParam(6, $this->bldg_lvl);
         $verify_updateAsset->bindParam(7, $this->stat);
         $verify_updateAsset->bindParam(8, $this->remarks);
-        $verify_updateAsset->bindParam(9, $this->id);
+        $verify_updateAsset->bindParam(9, $this->fileName);
+        $verify_updateAsset->bindParam(10, $this->id);
 
         $verify_updateAsset->execute();
         return $verify_updateAsset;

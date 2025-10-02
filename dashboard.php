@@ -1,6 +1,13 @@
 <?php
 session_start();
 
+require_once 'config/dbcon.php';
+require_once 'objects/forms.obj.php';
+require_once 'objects/assets.obj.php';
+
+$database = new Connection();
+$db = $database->connect();
+
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 	header('location: index.php');
 	exit;
@@ -18,10 +25,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 	<link rel="apple-touch-icon" sizes="180x180" href="vendors/images/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="vendors/images/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="vendors/images/favicon-16x16.png">
-
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
 	<!-- Google Font -->
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 	<!-- CSS -->
@@ -30,21 +35,30 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 	<link rel="stylesheet" type="text/css" href="src/plugins/datatables/css/dataTables.bootstrap4.min.css">
 	<link rel="stylesheet" type="text/css" href="src/plugins/datatables/css/responsive.bootstrap4.min.css">
 	<link rel="stylesheet" type="text/css" href="vendors/styles/style.css">
-
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.15.10/sweetalert2.min.css" rel="stylesheet">
-
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119386393-1"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-
-		function gtag() {
-			dataLayer.push(arguments);
+	<!-- <style>
+		.footer-wrap {
+			position: fixed;
+			bottom: 0;
+			left: 50;
+			width: 76%;
+			background: #fff;
 		}
-		gtag('js', new Date());
 
-		gtag('config', 'UA-119386393-1');
-	</script>
+		/* Mobile layout */
+		@media screen and (max-width: 767px) {
+			.footer-wrap {
+				position: static;
+				width: 100%;
+				transform: none;
+				box-shadow: none;
+			}
+		}
+	</style> -->
+
+	<style>
+		
+	</style>
 </head>
 
 <body>
@@ -69,7 +83,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 				<form>
 					<div class="form-group mb-0">
 						<i class="dw dw-search2 search-icon"></i>
-						<input type="text" class="form-control search-input" id="search_val" placeholder="Search Barcode Here ...">
+						<input type="text" class="form-control search-input" id="search_val" placeholder="Search Barcode / Accountable Person Here ...">
 						<div class="dropdown">
 							<a class="dropdown-toggle no-arrow" href="#" id="search_btn">
 								<i class="icon-copy ion-android-done"></i>
@@ -80,13 +94,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 			</div>
 		</div>
 		<div class="header-right">
-			<div class="dashboard-setting user-notification">
+			<!-- <div class="dashboard-setting user-notification">
 				<div class="dropdown">
 					<a class="dropdown-toggle no-arrow" href="javascript:;" data-toggle="right-sidebar">
 						<i class="dw dw-settings2"></i>
 					</a>
 				</div>
-			</div>
+			</div> -->
 			<div class="user-info-dropdown">
 				<div class="dropdown">
 					<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
@@ -179,7 +193,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 		</div>
 	</div>
 
-	<div class="left-side-bar">
+	<div class="left-side-bar" style="height: 100%;">
 		<div class="brand-logo">
 			<a href="dashboard.php">
 				<img src="vendors/images/amslogo2.png" alt="" class="dark-logo">
@@ -202,25 +216,15 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 							<span class="micon dw dw-library"></span><span class="mtext">Assets</span>
 						</a>
 						<ul class="submenu">
-
-							<?php
-							require_once 'config/dbcon.php';
-							require_once 'objects/forms.obj.php';
-							require_once 'objects/assets.obj.php';
-
-							$database = new Connection();
-							$db = $database->connect();
-
-							$form_categ = new Forms($db);
-
-							$form = $form_categ->form_categories();
-							while ($row = $form->fetch(PDO::FETCH_ASSOC)) {
-								echo '
-										<li><a href="assets.php?find=' . $row['form_name'] . '">' . $row['form_name'] . '</a></li>
-									';
-							}
-
-							?>
+							<li><a href="desktop_pc.php">Desktop PC</a></li>
+							<li><a href="avr_ups.php">AVR UPS</a></li>
+							<li><a href="laptop.php">Laptop</a></li>
+							<li><a href="printer.php">Printer</a></li>
+							<li><a href="server.php">Server</a></li>
+							<li><a href="computer_peripheral.php">Computer Peripheral</a></li>
+							<li><a href="network_device.php">Network Device</a></li>
+							<li><a href="scanner.php">Scanner</a></li>
+							<li><a href="communication.php">Communication</a></li>
 						</ul>
 					</li>
 					<li class="dropdown">
@@ -303,7 +307,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 				</div>
 				<div class="col-xl-3 mb-30">
 					<div class="card-box height-100-p widget-style1">
-						<div class="d-flex flex-wrap align-items-center mt-3">
+						<div class="d-flex flex-wrap align-items-center mt-2">
 							<div class="widget-data">
 								<?php
 								$count_defective = new Assets($db);
@@ -323,7 +327,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 				</div>
 				<div class="col-xl-3 mb-30">
 					<div class="card-box height-100-p widget-style1">
-						<div class="d-flex flex-wrap align-items-center mt-3">
+						<div class="d-flex flex-wrap align-items-center mt-2">
 							<div class="widget-data">
 								<?php
 								$count_scrap = new Assets($db);
@@ -346,6 +350,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 			<div class="footer-wrap pd-20 mb-20 card-box">
 				Copyright 2025 © <a href="#">innogroup.com.ph</a>
 			</div>
+
 		</div>
 	</div>
 

@@ -19,7 +19,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 <head>
     <!-- Basic Page Info -->
     <meta charset="utf-8">
-    <title>Scrap</title>
+    <title>Communication</title>
     <!-- Site favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="vendors/images/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="vendors/images/favicon-32x32.png">
@@ -34,12 +34,11 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <link rel="stylesheet" type="text/css" href="vendors/styles/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.2/semantic.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.semanticui.css">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-
     <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.15.10/sweetalert2.min.css" rel="stylesheet">
+
     <style>
         .open-sans-custom {
             font-family: "Open Sans", sans-serif;
@@ -52,18 +51,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 </head>
 
 <body>
-    <!-- <div class="pre-loader">
-        <div class="pre-loader-box">
-            <div class="loader-logo"><img src="vendors/images/itdesk.png" alt="" style="width: 250px; height: auto;"></div>
-            <div class='loader-progress' id="progress_div">
-                <div class='bar' id='bar1'></div>
-            </div>
-            <div class='percent' id='percent1'>0%</div>
-            <div class="loading-text">
-                Loading...
-            </div>
-        </div>
-    </div> -->
 
     <div class="header">
         <div class="header-left">
@@ -244,12 +231,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
                             <div class="title">
-                                <h4>Others</h4>
+                                <h4>Assets</h4>
                             </div>
                             <nav aria-label="breadcrumb" role="navigation">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Scrap</li>
+                                    <li class="breadcrumb-item active" aria-current="page"> Communication</li>
                                 </ol>
                             </nav>
                         </div>
@@ -258,7 +245,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 <!-- Simple Datatable start -->
                 <div class="card-box mb-30">
                     <div class="pd-20">
-                        <table id="scrap" class="ui celled table pb-20 table-responsive" style="width:100%">
+                        <p class="mb-0">To add new asset <a class="text-primary" href="#" data-toggle="modal" data-target="#addnew_modal">Click Here</a></p>
+                        <table id="communication" class="ui celled table pb-20 table-responsive" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Barcode</th>
@@ -272,10 +260,11 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Content goes here -->
+                                <!-- Content goes here... -->
                             </tbody>
                         </table>
                     </div>
+
                 </div>
                 <!-- Simple Datatable End -->
             </div>
@@ -285,8 +274,216 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         </div>
     </div>
 
+    <!-- Add New Modal -->
+    <div class="modal fade bs-example-modal-lg open-sans-custom" id="addnew_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myLargeModalLabel"><i class="icon-copy dw dw-personal-computer"></i> Add New</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <!-- Default Basic Forms Start -->
+                    <form id="assetForm" enctype="multipart/form-data">
+                        <div class="row">
+
+                            <!-- Column 1 -->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="barcode_no"><i class="icon-copy dw dw-barcode"></i> Barcode <span class="text-danger">*</span></label>
+                                    <input type="hidden" name="form_type" id="form_type" value="Communication">
+
+                                    <?php
+                                    $increment_barcode = new Assets($db);
+
+                                    $form_type = "Communication";
+                                    $increment_barcode->form_type = $form_type;
+
+                                    $increment = $increment_barcode->increment_barcodes();
+                                    $row3 = $increment->fetch(PDO::FETCH_ASSOC);
+                                    $numericBarcode = (int)substr($row3['max_barcode'], 4);
+
+                                    if ($form_type === "Communication") {
+                                        $barcode = "0058" . str_pad($numericBarcode + 1, 4, "0", STR_PAD_LEFT);
+                                    } else {
+                                        $barcode = '';
+                                    }
+                                    ?>
+
+                                    <input class="form-control ui input" type="number" name="barcode_no" id="barcode_no" value="<?php echo $barcode; ?>" placeholder="Barcode No." readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="item_description"><i class="icon-copy dw dw-file"></i> Description <span class="text-danger">*</span></label>
+                                    <textarea class="form-control ui input restrict" name="item_description" id="item_description" rows="3" placeholder="Description..." required></textarea>
+                                </div>
+                                <div class="form-group position-relative">
+                                    <label for="accountable_name"><i class="icon-copy dw dw-user"></i> Accountable <span class="text-danger">*</span></label>
+                                    <br>
+                                    <select class="form-control ui input restrict" style="width: 240px;" id="accountable_name">
+                                        <option value="0" selected disabled>Choose...</option>
+                                        <?php
+                                        require_once 'config/dbconn_main.php';
+                                        require_once 'objects/users.obj.php';
+
+                                        $databaseMain = new ConnectionMain();
+                                        $dbMain = $databaseMain->connect();
+
+                                        $select_user = new Users($dbMain);
+
+                                        $select = $select_user->select_users();
+                                        while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
+                                            echo '<option value="' . $row['fullname'] . '">' . $row['fullname'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group position-relative">
+                                    <label for="user"><i class="icon-copy dw dw-user-2"></i> User <span class="text-danger">*</span></label>
+                                    <!-- <input class="form-control ui input restrict" type="text" name="user" id="user" placeholder="User..." required> -->
+                                    <br>
+                                    <select class="form-control ui input restrict" style="width: 240px;" id="user">
+                                        <option value="0" selected disabled>Choose...</option>
+                                        <?php
+                                        require_once 'config/dbconn_main.php';
+                                        require_once 'objects/users.obj.php';
+
+                                        $databaseMain = new ConnectionMain();
+                                        $dbMain = $databaseMain->connect();
+
+                                        $select_user = new Users($dbMain);
+
+                                        $select = $select_user->select_users();
+                                        while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
+                                            echo '<option value="' . $row['fullname'] . '">' . $row['fullname'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Column 2 -->
+                            <div class="col-md-4">
+                                <div class="form-group position-relative">
+                                    <label for="department"><i class="icon-copy dw dw-building"></i> Department <span class="text-danger">*</span></label>
+                                    <br>
+                                    <select class="custom-select ui dropdown" name="department" style="width: 240px;" id="department" required>
+                                        <option value="" selected disabled>Choose...</option>
+                                        <?php
+                                        require_once 'config/dbconn_main.php';
+                                        require_once 'objects/department.obj.php';
+
+                                        $databaseMain = new ConnectionMain();
+                                        $dbMain = $databaseMain->connect();
+
+                                        $select_department = new Department($dbMain);
+                                        $select = $select_department->select_departments();
+                                        while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
+                                            echo '<option value="' . $row['id'] . '">' . $row['dept_name'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group position-relative">
+                                    <label for="location"><i class="icon-copy dw dw-map"></i> Location <span class="text-danger">*</span></label>
+                                    <br>
+                                    <select class="custom-select ui dropdown" name="location" id="location" style="width: 240px;" required>
+                                        <option value="" selected disabled>Choose...</option>
+                                        <?php
+                                        require_once 'config/dbconn_main.php';
+                                        require_once 'objects/location.obj.php';
+
+                                        $databaseMain2 = new ConnectionMain();
+                                        $dbMain2 = $databaseMain2->connect();
+
+                                        $select_location = new Location($dbMain2);
+                                        $select_loc = $select_location->select_locations();
+                                        while ($row = $select_loc->fetch(PDO::FETCH_ASSOC)) {
+                                            echo '<option value="' . $row['id'] . '">' . $row['location'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bldg_level"><i class="icon-copy dw dw-layers"></i> Building Level <span class="text-danger">*</span></label>
+                                    <input class="form-control ui input restrict" type="text" name="bldg_level" id="bldg_level" placeholder="Building Level..." required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="remarks"><i class="icon-copy dw dw-comment"></i> Remarks <span class="text-danger">*</span></label>
+                                    <textarea class="form-control ui input restrict" name="remarks" id="remarks" rows="3" placeholder="Remarks..." required></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Column 3 -->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="status"><i class="icon-copy dw dw-check"></i> Status <span class="text-danger">*</span></label>
+                                    <select class="custom-select ui dropdown" name="status" id="status" required>
+                                        <option value="1" selected>In Good Condition</option>
+                                        <?php
+                                        require_once 'config/dbcon.php';
+                                        require_once 'objects/status.obj.php';
+
+                                        $database = new Connection();
+                                        $db = $database->connect();
+
+                                        $select_stat = new Status($db);
+                                        $select_stat->user_id = $_SESSION['access_user_id'];
+                                        $select_stat->role_id = $_SESSION['access_role_id'];
+                                        $select_stat->role = $_SESSION['role'];
+                                        $select_stat = $select_stat->select_status();
+                                        while ($row = $select_stat->fetch(PDO::FETCH_ASSOC)) {
+                                            if ($row['stat_name'] !== 'In Good Condition') {
+                                                echo '<option value="' . $row['id'] . '">' . $row['stat_name'] . '</option>';
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+
+                                    <label for="upload_img"><i class="icon-copy dw dw-upload"></i> Upload Image <span class="text-danger">*</span></label>
+                                    <div class="ui input">
+                                        <input type="file" class="form-control-file border" id="upload_img" name="upload_img" accept="image/*" onchange="previewImage(event)" required>
+                                    </div>
+
+                                    <br><br>
+
+                                    <label for="imagePreview"><i class="icon-copy dw dw-eye"></i> Preview <span class="text-success">*</span></label>
+                                    <div id="imagePreview" class="mt-2 text-center">
+                                        <img id="preview" src="#" alt="Image Preview" style="max-width:100%; height:auto; border-radius:10px; border:1px solid #ddd; padding:5px; box-shadow:0 2px 8px rgba(0,0,0,0.1);" />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Default Basic Forms End -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="submit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade bs-example-modal-lg open-sans-custom" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myLargeModalLabel"><i class="icon-copy dw dw-edit-1"></i> Edit</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body" id="edit_modalBody">
+                    <!-- Content goes here... -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- View Modal -->
-    <div class="modal fade bs-example-modal-lg open-sans-custom" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal fade bs-example-modal-lg open-sans-custom" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -311,7 +508,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.2/semantic.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.15.10/sweetalert2.min.js"></script>
     <!-- Custom JS -->
-    <script src="assets/js/scrap.script.js"></script>
+    <script src="assets/js/assets.script.js"></script>
+
 </body>
 
 </html>

@@ -35,7 +35,7 @@ while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
 
     echo '
     <form>
-    <label style="font-size: 12px; font-weight: bold;">Asset Info:</label>
+    <label style="font-size: 12px; font-weight: bold;"><i class="fa fa-info-circle"></i> Asset Info</label>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>Created By: </label>
@@ -60,17 +60,17 @@ while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>Accountable:</label>
-                <input class="form-control restrict" type="text" placeholder="Accountable..." id="upd_acct_name" value="' . $row['acct_name'] . '" readonly>
+                <input class="form-control restrict" type="text" placeholder="Accountable..." id="" value="' . $row['acct_name'] . '" readonly>
             </div>
             <div class="form-group col-md-6">
                 <label>User:</label>
-                <input class="form-control restrict" type="text" placeholder="User..." id="upd_user" value="' . $row['user'] . '" readonly>
+                <input class="form-control restrict" type="text" placeholder="User..." id="" value="' . $row['user'] . '" readonly>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>Department:</label>
-                <select class="custom-select" id="upd_dept" disabled style="color: black; background-color: #f0f0f0; opacity: 1;">
+                <select class="custom-select" id="" disabled style="color: black; background-color: #f0f0f0; opacity: 1;">
                     <option value="' . $row['dept_id'] . '">' . $row['dept_name'] . '</option>';
     while ($row3 = $select->fetch(PDO::FETCH_ASSOC)) {
         echo '<option value="' . $row3['id'] . '">' . $row3['dept_name'] . '</option>';
@@ -79,7 +79,7 @@ while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
             </div>
             <div class="form-group col-md-6">
                 <label>Location:</label>
-                <select class="custom-select" id="upd_location" disabled style="color: black; background-color: #f0f0f0; opacity: 1;">
+                <select class="custom-select" id="" disabled style="color: black; background-color: #f0f0f0; opacity: 1;">
                     <option value="' . $row['location_id'] . '">' . $row['location'] . '</option>';
     while ($row4 = $select_loc->fetch(PDO::FETCH_ASSOC)) {
         echo '<option value="' . $row4['id'] . '">' . $row4['location'] . '</option>';
@@ -103,15 +103,20 @@ while ($row = $get->fetch(PDO::FETCH_ASSOC)) {
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-6">
                 <label>Remarks:</label>
-                <textarea class="form-control restrict" placeholder="Remarks..." id="upd_remarks" readonly>' . $row['remarks'] . '</textarea>
+                <textarea class="form-control restrict" style="height: 300px;" placeholder="Remarks..." id="upd_remarks" readonly>' . $row['remarks'] . '</textarea>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Attach Image: </label>
+                </br>
+				<img src="uploads/' . htmlspecialchars($row['img_name']) . '" alt="No Image Available" style="width: 100%; height: 300px; border-radius:3px;" />
             </div>
         </div>
     </form>
     <div class="form-row">
         <div class="form-group col-md-12">
-            <label style="font-size: 12px; font-weight: bold;">Audit Log:</label>
+            <label style="font-size: 12px; font-weight: bold;"><i class="fa fa-info-circle"></i> Audit Log</label>
             <div style="max-height: 400px; overflow-y: auto;">
                 <table class="table table-bordered">
                     <thead class="thead-light" style="position: sticky; top: 0; z-index: 1; background-color: #f8f9fa;">

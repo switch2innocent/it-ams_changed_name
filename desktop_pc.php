@@ -4,6 +4,7 @@ session_start();
 require_once 'config/dbcon.php';
 require_once 'objects/forms.obj.php';
 require_once 'objects/assets.obj.php';
+require_once 'objects/users.obj.php';
 
 $database = new Connection();
 $db = $database->connect();
@@ -19,7 +20,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 <head>
 	<!-- Basic Page Info -->
 	<meta charset="utf-8">
-	<title>Assets Page</title>
+	<title>Desktop PC</title>
 	<!-- Site favicon -->
 	<link rel="apple-touch-icon" sizes="180x180" href="vendors/images/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="vendors/images/favicon-32x32.png">
@@ -34,12 +35,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 	<link rel="stylesheet" type="text/css" href="vendors/styles/style.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.2/semantic.min.css">
 	<link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.semanticui.css">
-
-
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.15.10/sweetalert2.min.css" rel="stylesheet">
 
 	<style>
@@ -52,34 +50,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 		}
 	</style>
 
-
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119386393-1"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-
-		function gtag() {
-			dataLayer.push(arguments);
-		}
-		gtag('js', new Date());
-
-		gtag('config', 'UA-119386393-1');
-	</script>
 </head>
 
 <body>
-	<!-- <div class="pre-loader">
-		<div class="pre-loader-box">
-			<div class="loader-logo"><img src="vendors/images/itdesk.png" alt="" style="width: 250px; height: auto;"></div>
-			<div class='loader-progress' id="progress_div">
-				<div class='bar' id='bar1'></div>
-			</div>
-			<div class='percent' id='percent1'>0%</div>
-			<div class="loading-text">
-				Loading...
-			</div>
-		</div>
-	</div> -->
 
 	<div class="header">
 		<div class="header-left">
@@ -89,7 +62,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 				<form>
 					<div class="form-group mb-0">
 						<i class="dw dw-search2 search-icon"></i>
-						<input type="text" class="form-control search-input" id="search_val" placeholder="Search Barcode Here ...">
+						<input type="text" class="form-control search-input" id="search_val" placeholder="Search Barcode / Accountable Person Here ...">
 						<div class="dropdown">
 							<a class="dropdown-toggle no-arrow" href="#" id="search_btn">
 								<i class="icon-copy ion-android-done"></i>
@@ -100,13 +73,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 			</div>
 		</div>
 		<div class="header-right">
-			<div class="dashboard-setting user-notification">
+			<!-- <div class="dashboard-setting user-notification">
 				<div class="dropdown">
 					<a class="dropdown-toggle no-arrow" href="javascript:;" data-toggle="right-sidebar">
 						<i class="dw dw-settings2"></i>
 					</a>
 				</div>
-			</div>
+			</div> -->
 			<div class="user-info-dropdown">
 				<div class="dropdown">
 					<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
@@ -199,7 +172,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 		</div>
 	</div>
 
-	<div class="left-side-bar">
+	<div class="left-side-bar" style="height: 100%;">
 		<div class="brand-logo">
 			<a href="dashboard.php">
 				<img src="vendors/images/amslogo2.png" alt="" class="dark-logo">
@@ -222,17 +195,15 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 							<span class="micon dw dw-library"></span><span class="mtext">Assets</span>
 						</a>
 						<ul class="submenu">
-							<?php
-							$form_categ = new Forms($db);
-
-							$form = $form_categ->form_categories();
-							while ($row = $form->fetch(PDO::FETCH_ASSOC)) {
-								echo '
-										<li><a href="assets.php?find=' . $row['form_name'] . '">' . $row['form_name'] . '</a></li>
-									';
-							}
-
-							?>
+							<li><a href="desktop_pc.php">Desktop PC</a></li>
+							<li><a href="avr_ups.php">AVR UPS</a></li>
+							<li><a href="laptop.php">Laptop</a></li>
+							<li><a href="printer.php">Printer</a></li>
+							<li><a href="server.php">Server</a></li>
+							<li><a href="computer_peripheral.php">Computer Peripheral</a></li>
+							<li><a href="network_device.php">Network Device</a></li>
+							<li><a href="scanner.php">Scanner</a></li>
+							<li><a href="communication.php">Communication</a></li>
 						</ul>
 					</li>
 					<li class="dropdown">
@@ -267,7 +238,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 							<nav aria-label="breadcrumb" role="navigation">
 								<ol class="breadcrumb">
 									<li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-									<li class="breadcrumb-item active" aria-current="page"><?php echo $_GET['find']; ?></li>
+									<li class="breadcrumb-item active" aria-current="page">Desktop PC</li>
 								</ol>
 							</nav>
 						</div>
@@ -276,14 +247,14 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 				<!-- Simple Datatable start -->
 				<div class="card-box mb-30">
 					<div class="pd-20">
-						<h4 class="text-blue h4"><?php echo $_GET['find']; ?> Table</h4>
 						<p class="mb-0">To add new asset <a class="text-primary" href="#" data-toggle="modal" data-target="#addnew_modal">Click Here</a></p>
 						<table id="desktop_pc" class="ui celled table pb-20 table-responsive" style="width:100%">
 							<thead>
 								<tr>
 									<th>Barcode</th>
-									<th>Description</th>
+									<th class="w-100">Description</th>
 									<th>Accountable</th>
+									<th>User</th>
 									<th>Department</th>
 									<th>Location</th>
 									<th>Status</th>
@@ -291,38 +262,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 								</tr>
 							</thead>
 							<tbody>
-								<?php
-								$view_asset = new Assets($db);
-
-								$view_asset->form_type = isset($_GET['find']) ? $_GET['find'] : null;
-								$view = $view_asset->view_assets();
-
-								while ($row2 = $view->fetch(PDO::FETCH_ASSOC)) {
-									echo '
-										<tr>
-											<td>' . $row2['bar_no'] . '</td>
-											<td>' . $row2['item_desc'] . '</td>
-											<td>' . $row2['acct_name'] . '</td>
-											<td>' . $row2['dept_name'] . '</td>
-											<td>' . $row2['location'] . '</td>
-											<td>' . $row2['stat_name'] . '</td>
-											<td>
-												<center>
-													<div class="dropdown">
-														<a class="btn btn-link font-24 p-0 line-height-1 no-arrow" href="#" role="button" data-toggle="dropdown">
-															<i class="dw dw-more"></i>
-														</a>
-														<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-															<a class="dropdown-item view" href="#" data-id="' . $row2['id'] . '"><i class="dw dw-eye"></i> View</a>
-															<a class="dropdown-item edit" href="#" data-id="' . $row2['id'] . '"><i class="dw dw-edit2"></i> Edit</a>
-														</div>
-													</div>
-												</center>
-											</td>
-										</tr> 
-									';
-								}
-								?>
+								<!-- Content goes here... -->
 							</tbody>
 						</table>
 					</div>
@@ -337,147 +277,166 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 	</div>
 
 	<!-- Add New Modal -->
-	<div class="modal fade bs-example-modal-lg open-sans-custom" id="addnew_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal fade custom-modal-size" id="addnew_modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
 		<div class="modal-dialog modal-lg modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="myLargeModalLabel"><i class="icon-copy dw dw-personal-computer"></i> <?php echo $_GET['find']; ?></h4>
+					<h4 class="modal-title" id="myLargeModalLabel"><i class="icon-copy dw dw-personal-computer"></i> Add New</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 				</div>
 				<div class="modal-body">
 					<!-- Default Basic Forms Start -->
-					<form>
-						<div class="form-group row">
-							<label class="col-sm-12 col-md-2 col-form-label">Barcode: <span style="color: red;">*</span></label>
-							<div class="col-sm-12 col-md-10">
-								<input type="text" class="form-control" id="form_type" value="<?php echo $_GET['find']; ?>" hidden>
+					<form id="assetForm" enctype="multipart/form-data">
+						<div class="row">
 
-								<?php
-								$increment_barcode = new Assets($db);
-								$increment_barcode->form_type = isset($_GET['find']) ? $_GET['find'] : null;
+							<!-- Column 1 -->
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="barcode_no"><i class="icon-copy dw dw-barcode"></i> Barcode <span class="text-danger">*</span></label>
+									<input type="hidden" name="form_type" id="form_type" value="Desktop PC">
+									<input class="form-control ui input" type="number" name="barcode_no" id="barcode_no" placeholder="Barcode No." required>
+								</div>
+								<div class="form-group">
+									<label for="item_description"><i class="icon-copy dw dw-file"></i> Description <span class="text-danger">*</span></label>
+									<textarea class="form-control ui input restrict" name="item_description" id="item_description" rows="3" placeholder="Description..." required></textarea>
+								</div>
+								<div class="form-group position-relative">
+									<label for="accountable_name"><i class="icon-copy dw dw-user"></i> Accountable <span class="text-danger">*</span></label>
+									<br>
+									<select class="form-control ui input restrict" style="width: 240px;" id="accountable_name">
+										<option value="0" selected disabled>Choose...</option>
+										<?php
+										require_once 'config/dbconn_main.php';
+										require_once 'objects/users.obj.php';
 
-								$increment = $increment_barcode->increment_barcodes();
-								$row3 = $increment->fetch(PDO::FETCH_ASSOC);
-								$numericBarcode = (int)substr($row3['max_barcode'], 4);
+										$databaseMain = new ConnectionMain();
+										$dbMain = $databaseMain->connect();
 
-								if ($_GET['find'] === "AVR UPS") {
-									$barcode = "0054" . str_pad($numericBarcode + 1, 4, "0", STR_PAD_LEFT);
-								} else if ($_GET['find'] === "Laptop") {
-									$barcode = "0052" . str_pad($numericBarcode + 1, 4, "0", STR_PAD_LEFT);
-								} else if ($_GET['find'] === "Printer") {
-									$barcode = "0051" . str_pad($numericBarcode + 1, 4, "0", STR_PAD_LEFT);
-								} else if ($_GET['find'] === "Server") {
-									$barcode = "0053" . str_pad($numericBarcode + 1, 4, "0", STR_PAD_LEFT);
-								} else if ($_GET['find'] === "Computer Peripheral") {
-									$barcode = "0055" . str_pad($numericBarcode + 1, 4, "0", STR_PAD_LEFT);
-								} else if ($_GET['find'] === "Network Device") {
-									$barcode = "0056" . str_pad($numericBarcode + 1, 4, "0", STR_PAD_LEFT);
-								} else if ($_GET['find'] === "Scanner") {
-									$barcode = "0057" . str_pad($numericBarcode + 1, 4, "0", STR_PAD_LEFT);
-								} else if ($_GET['find'] === "Communication") {
-									$barcode = "0058" . str_pad($numericBarcode + 1, 4, "0", STR_PAD_LEFT);
-								} else {
-									$barcode = '';
-								}
+										$select_user = new Users($dbMain);
 
-								?>
-								<input class="form-control" type="number" placeholder="Barcode No." id="barcode_no" value="<?php echo $barcode; ?>" <?php echo ($_GET['find'] === "Desktop PC") ? '' : 'readonly'; ?>>
+										$select = $select_user->select_users();
+										while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
+											echo '<option value="' . $row['fullname'] . '">' . $row['fullname'] . '</option>';
+										}
+										?>
+									</select>
+								</div>
+								<div class="form-group position-relative">
+									<label for="user"><i class="icon-copy dw dw-user-2"></i> User <span class="text-danger">*</span></label>
+									<br>
+									<select class="form-control ui input restrict" style="width: 240px;" id="user">
+										<option value="0" selected disabled>Choose...</option>
+										<?php
+										require_once 'config/dbconn_main.php';
+										require_once 'objects/users.obj.php';
+
+										$databaseMain = new ConnectionMain();
+										$dbMain = $databaseMain->connect();
+
+										$select_user = new Users($dbMain);
+
+										$select = $select_user->select_users();
+										while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
+											echo '<option value="' . $row['fullname'] . '">' . $row['fullname'] . '</option>';
+										}
+										?>
+									</select>
+								</div>
 							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-sm-12 col-md-2 col-form-label">Description: <span style="color: red;">*</span></label>
-							<div class="col-sm-12 col-md-10">
-								<textarea class="form-control restrict" placeholder="Description..." id="item_description"></textarea>
+
+							<!-- Column 2 -->
+							<div class="col-md-4">
+								<div class="form-group position-relative">
+									<label for="department"><i class="icon-copy dw dw-building"></i> Department <span class="text-danger">*</span></label>
+									<br>
+									<select class="custom-select ui dropdown" name="department" style="width: 240px;" id="department" required>
+										<option value="" selected disabled>Choose...</option>
+										<?php
+										require_once 'config/dbconn_main.php';
+										require_once 'objects/department.obj.php';
+
+										$databaseMain = new ConnectionMain();
+										$dbMain = $databaseMain->connect();
+
+										$select_department = new Department($dbMain);
+										$select = $select_department->select_departments();
+										while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
+											echo '<option value="' . $row['id'] . '">' . $row['dept_name'] . '</option>';
+										}
+										?>
+									</select>
+								</div>
+								<div class="form-group position-relative">
+									<label for="location"><i class="icon-copy dw dw-map"></i> Location <span class="text-danger">*</span></label>
+									<br>
+									<select class="custom-select ui dropdown" name="location" id="location" style="width: 240px;" required>
+										<option value="" selected disabled>Choose...</option>
+										<?php
+										require_once 'config/dbconn_main.php';
+										require_once 'objects/location.obj.php';
+
+										$databaseMain2 = new ConnectionMain();
+										$dbMain2 = $databaseMain2->connect();
+
+										$select_location = new Location($dbMain2);
+										$select_loc = $select_location->select_locations();
+										while ($row = $select_loc->fetch(PDO::FETCH_ASSOC)) {
+											echo '<option value="' . $row['id'] . '">' . $row['location'] . '</option>';
+										}
+										?>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="bldg_level"><i class="icon-copy dw dw-layers"></i> Building Level <span class="text-danger">*</span></label>
+									<input class="form-control ui input restrict" type="text" name="bldg_level" id="bldg_level" placeholder="Building Level..." required>
+								</div>
+								<div class="form-group">
+									<label for="remarks"><i class="icon-copy dw dw-comment"></i> Remarks <span class="text-danger">*</span></label>
+									<textarea class="form-control ui input restrict" name="remarks" id="remarks" rows="3" placeholder="Remarks..." required></textarea>
+								</div>
 							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-sm-12 col-md-2 col-form-label">Accountable: <span style="color: red;">*</span></label>
-							<div class="col-sm-12 col-md-10">
-								<input class="form-control restrict" type="text" placeholder="Accountable..." id="accountable_name">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-sm-12 col-md-2 col-form-label">User: <span style="color: red;">*</span></label>
-							<div class="col-sm-12 col-md-10">
-								<input class="form-control restrict" type="text" placeholder="User..." id="user">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-sm-12 col-md-2 col-form-label">Department: <span style="color: red;">*</span></label>
-							<div class="col-sm-12 col-md-10">
-								<select class="custom-select col-12" id="department">
-									<option value="0" selected disabled>Choose...</option>
-									<?php
-									require_once 'config/dbconn_main.php';
-									require_once 'objects/department.obj.php';
 
-									$databaseMain = new ConnectionMain();
-									$dbMain = $databaseMain->connect();
+							<!-- Column 3 -->
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="status"><i class="icon-copy dw dw-check"></i> Status <span class="text-danger">*</span></label>
+									<select class="custom-select ui dropdown" name="status" id="status" required>
+										<option value="1" selected>In Good Condition</option>
+										<?php
+										require_once 'config/dbcon.php';
+										require_once 'objects/status.obj.php';
 
-									$select_department = new Department($dbMain);
-									$select = $select_department->select_departments();
-									while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-										echo '<option value="' . $row['id'] . '">' . $row['dept_name'] . '</option>';
-									}
-									?>
-								</select>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-sm-12 col-md-2 col-form-label">Location: <span style="color: red;">*</span></label>
-							<div class="col-sm-12 col-md-10">
-								<select class="custom-select col-12" id="location">
-									<option value="0" selected disabled>Choose...</option>
-									<?php
-									require_once 'config/dbconn_main.php';
-									require_once 'objects/location.obj.php';
+										$database = new Connection();
+										$db = $database->connect();
 
-									$databaseMain2 = new ConnectionMain();
-									$dbMain2 = $databaseMain2->connect();
+										$select_stat = new Status($db);
+										$select_stat->user_id = $_SESSION['access_user_id'];
+										$select_stat->role_id = $_SESSION['access_role_id'];
+										$select_stat->role = $_SESSION['role'];
+										$select_stat = $select_stat->select_status();
+										while ($row = $select_stat->fetch(PDO::FETCH_ASSOC)) {
+											if ($row['stat_name'] !== 'In Good Condition') {
+												echo '<option value="' . $row['id'] . '">' . $row['stat_name'] . '</option>';
+											}
+										}
+										?>
+									</select>
+								</div>
+								<div class="form-group">
 
-									$select_location = new Location($dbMain2);
-									$select_loc = $select_location->select_locations();
-									while ($row = $select_loc->fetch(PDO::FETCH_ASSOC)) {
-										echo '<option value="' . $row['id'] . '">' . $row['location'] . '</option>';
-									}
-									?>
-								</select>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-sm-12 col-md-2 col-form-label">Building Lvl: <span style="color: red;">*</span></label>
-							<div class="col-sm-12 col-md-10">
-								<input class="form-control restrict" type="text" placeholder="Building Level..." id="bldg_level">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-sm-12 col-md-2 col-form-label">Status: <span style="color: red;">*</span></label>
-							<div class="col-sm-12 col-md-10">
-								<select class="custom-select col-12" id="status">
-									<option value="0" selected disabled>Choose...</option>
-									<?php
-									require_once 'config/dbcon.php';
-									require_once 'objects/status.obj.php';
+									<label for="upload_img"><i class="icon-copy dw dw-upload"></i> Upload Image <span class="text-danger">*</span></label>
+									<div class="ui input">
+										<input type="file" class="form-control-file border" id="upload_img" name="upload_img" accept="image/*" onchange="previewImage(event)" required>
+									</div>
 
-									$database = new Connection();
-									$db = $database->connect();
+									<br><br>
 
-									$select_stat = new Status($db);
+									<label for="imagePreview"><i class="icon-copy dw dw-eye"></i> Preview <span class="text-success">*</span></label>
+									<div id="imagePreview" class="mt-2 text-center">
+										<img id="preview" src="#" alt="Image Preview" style="max-width:100%; height:auto; border-radius:10px; border:1px solid #ddd; padding:5px; box-shadow:0 2px 8px rgba(0,0,0,0.1);" />
+									</div>
 
-									$select_stat->user_id = $_SESSION['user_id'];
-
-									$select_stat = $select_stat->select_status();
-									while ($row = $select_stat->fetch(PDO::FETCH_ASSOC)) {
-										echo '<option value="' . $row['id'] . '">' . $row['stat_name'] . '</option>';
-									}
-									?>
-								</select>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-sm-12 col-md-2 col-form-label">Remarks: <span style="color: red;">*</span></label>
-							<div class="col-sm-12 col-md-10">
-								<textarea class="form-control restrict" placeholder="Remarks..." id="remarks"></textarea>
+								</div>
 							</div>
 						</div>
 					</form>
@@ -492,7 +451,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 	</div>
 
 	<!-- Edit Modal -->
-	<div class="modal fade bs-example-modal-lg open-sans-custom" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal fade custom-modal-size" id="editModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
 		<div class="modal-dialog modal-lg modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -507,7 +466,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 	</div>
 
 	<!-- View Modal -->
-	<div class="modal fade bs-example-modal-lg open-sans-custom" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal fade bs-example-modal-lg open-sans-custom" data-backdrop="static" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -533,6 +492,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.15.10/sweetalert2.min.js"></script>
 	<!-- Custom JS -->
 	<script src="assets/js/assets.script.js"></script>
+
 </body>
 
 </html>

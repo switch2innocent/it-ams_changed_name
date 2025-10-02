@@ -1,20 +1,26 @@
 $(document).ready(() => {
 
     //Init Datatable
-    const table = $('#desktop_pc').DataTable({
-        'columnDefs': [
-            {
-                'orderable': false,
-                'targets': 6 //Disable ordering on action
-            }
-        ]
+    //Server side datatable for scrap
+    $('#scrap').DataTable({
+        serverSide: true,
+        processing: true,
+        paging: true,
+        order: [],
+        ajax: {
+            url: 'controls/datatables/scrap_dtable.php',
+            type: 'POST',
+        }
     });
 
     //View Scrap
-    $('#desktop_pc tbody').on('click', 'a.view', function () {
+    $('#scrap tbody').on('click', 'a.view', function () {
 
         const id = $(this).data('id');
-        const myModal = new bootstrap.Modal($('#viewModal')[0]);
+        const myModal = new bootstrap.Modal(document.getElementById('viewModal'), {
+            backdrop: 'static',
+            keyboard: false
+        });
 
         $.ajax({
             type: 'POST',
@@ -41,7 +47,7 @@ $(document).ready(() => {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Oops...',
-                    text: 'Please enter a barcode to search!'
+                    text: 'Please enter a barcode or accountable person to search!'
                 });
             }
         }
@@ -57,7 +63,7 @@ $(document).ready(() => {
             Swal.fire({
                 icon: 'warning',
                 title: 'Oops...',
-                text: 'Please enter a barcode to search!'
+                text: 'Please enter a barcode or accountable person to search!'
             });
         }
     });

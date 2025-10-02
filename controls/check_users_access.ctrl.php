@@ -15,6 +15,14 @@ $check_access->system_id = 16;
 $check = $check_access->check_access();
 
 if ($check->fetchColumn() > 0) {
+
+    $get = $check_access->get_access();
+    $row = $get->fetch(PDO::FETCH_ASSOC);
+
+    $_SESSION['access_user_id'] = $row['access_user_id'];
+    $_SESSION['access_role_id'] = $row['role_id'];
+    $_SESSION['role'] = $row['role'];
+
     echo 1;
 } else {
     echo 0;

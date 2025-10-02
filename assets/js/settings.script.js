@@ -13,7 +13,7 @@ $(document).ready(() => {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Oops...',
-                    text: 'Please enter a barcode to search!'
+                    text: 'Please enter a barcode or accountable person to search!'
                 });
             }
         }
@@ -29,7 +29,7 @@ $(document).ready(() => {
             Swal.fire({
                 icon: 'warning',
                 title: 'Oops...',
-                text: 'Please enter a barcode to search!'
+                text: 'Please enter a barcode or accountable person to search!'
             });
         }
     });
@@ -77,8 +77,8 @@ $(document).ready(() => {
 
                         Swal.fire({
                             icon: 'success',
-                            title: 'Profile Updated',
-                            text: 'Your profile has been updated successfully. You will be logged out to save changes.'
+                            title: 'Account Updated',
+                            text: 'Your account has been updated successfully. You will be logged out to save changes.'
                         }).then(() => {
                             window.location.href = 'controls/logout_users.ctrl.php';
                         });
@@ -88,7 +88,7 @@ $(document).ready(() => {
                         Swal.fire({
                             icon: 'error',
                             title: 'Update Failed',
-                            text: 'Failed to update profile. Please try again later.'
+                            text: 'Failed to update account. Please try again later.'
                         });
 
                     }

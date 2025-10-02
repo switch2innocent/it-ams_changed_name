@@ -16,6 +16,7 @@ $verify_updateAsset->location = $_POST['upd_location'];
 $verify_updateAsset->bldg_lvl = $_POST['upd_bldg_lvl'];
 $verify_updateAsset->stat = $_POST['upd_stat'];
 $verify_updateAsset->remarks = $_POST['upd_remarks'];
+$verify_updateAsset->fileName = $_POST['fileName'];
 $verify_updateAsset->id = $_POST['upd_id'];
 
 $verify = $verify_updateAsset->verify_updateAssets();

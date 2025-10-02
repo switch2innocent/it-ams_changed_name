@@ -13,7 +13,7 @@ $(document).ready(() => {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Oops...',
-                    text: 'Please enter a barcode to search!'
+                    text: 'Please enter a barcode or accountable person to search!'
                 });
             }
         }
@@ -29,7 +29,7 @@ $(document).ready(() => {
             Swal.fire({
                 icon: 'warning',
                 title: 'Oops...',
-                text: 'Please enter a barcode to search!'
+                text: 'Please enter a barcode or accountable person to search!'
             });
         }
     });

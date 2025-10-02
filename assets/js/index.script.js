@@ -68,12 +68,12 @@ $(document).ready(() => {
         }
     });
 
-    //Enter key
-    // $(document).on('keydown', (e) => {
-    //     if (e.key === 'Enter') {
-    //         $('#sign_in').trigger('click');
-    //     }
-    // });
+    // Enter key
+    $(document).on('keydown', (e) => {
+        if (e.key === 'Enter') {
+            $('#sign_in').trigger('click');
+        }
+    });
 
     //Show pass
     $('#customCheck1').on('change', function () {
